@@ -1,4 +1,4 @@
-# AI-Powered Gmail Summarizer
+# AI-Powered Gmail Summarizer 🚀
 
 ## Overview
 This project is an AI-powered email summarizer that extracts key points and action items from email content. It uses LangChain with either OpenAI's GPT-4o-mini or the local Mistral model (via Ollama) to generate concise and structured JSON summaries of emails.
@@ -32,7 +32,7 @@ This project is an AI-powered email summarizer that extracts key points and acti
 1. Clone the repository:
    ```sh
    git clone https://github.com/kalyanKumarPokkula/email-summarizer.git
-   cd email-summarizer/server
+   cd email-summarizer/Server
    ```
 2. Create a virtual environment and activate it:
    ```sh
