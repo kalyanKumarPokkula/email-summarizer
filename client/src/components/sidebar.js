@@ -2,6 +2,9 @@ import { copyToClipboard } from '../utils/emailUtils.js';
 import { doubleCheckSummary } from '../utils/doubleCheckFun.js';
 import { handleReply } from '../utils/replyUtils.js';
 
+// Add this near the top of the file, after the imports
+let privacyMode = false;
+
 export function createSummarySidebar() {
 	// Create sidebar container
 	const sidebar = document.createElement('div');
@@ -167,8 +170,19 @@ export function createSummarySidebar() {
 
 	replyButton.addEventListener('click', async () => {
 		console.log('Reply clicked');
-		await handleReply();
+		handleReply();
+	});
+
+	// Update the privacy toggle event listener
+	toggleInput.addEventListener('change', (event) => {
+		privacyMode = event.target.checked;
+		console.log('Privacy Mode:', privacyMode);
 	});
 
 	return sidebar;
+}
+
+// Add this export so other files can access the privacy mode
+export function getPrivacyMode() {
+	return privacyMode;
 }

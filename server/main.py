@@ -43,12 +43,3 @@ def reply(body : dict):
     response = email_reply(email, privacy_mode)
     print(response)
     return response
-
-
-
-# json_Data = "```json\n{\n  \"summary\": \"Chaitanya Gadhe has a Backend Developer contract role opportunity and is seeking Kalyan Kumar's interest and availability for a discussion.\",\n  \"action_items\": [\n    \"Send Chaitanya Gadhe your CV\",\n    \"Respond with a good time for a quick chat\"\n  ]\n}\n```"
-# cleaned_json_data = json_Data.strip('```json\n').strip('```')
-# print(type(cleaned_json_data))
-# data = json.loads(cleaned_json_data)
-# print(type(data))
-# print(data)

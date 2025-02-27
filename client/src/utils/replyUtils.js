@@ -1,16 +1,20 @@
-import { replyTheMail } from '../llms/ollama.js';
 import { getFullEmailDetails } from './emailUtils.js';
+import { getPrivacyMode } from '../components/sidebar.js';
 
 export async function handleReply() {
 	try {
+		console.log('Starting reply process...'); // Debug log
+
 		// Get the currently selected email
 		const emailItem = document.querySelector('.zA.yO');
 		if (!emailItem) {
 			throw new Error('No email selected');
 		}
+		console.log('Email item found'); // Debug log
 
 		// Get email content before clicking reply
 		const emailContent = getFullEmailDetails(emailItem);
+		console.log('Email content:', emailContent); // Debug log
 
 		// Find and click Gmail's reply button
 		const replyButton = document.querySelector('[aria-label="Reply"]');
@@ -26,9 +30,56 @@ export async function handleReply() {
 				// Show loading state
 				composeBox.innerHTML = 'Generating reply...<br><br>';
 
-				// Get AI-generated reply
-				const mailReply = await replyTheMail(emailContent);
-				composeBox.innerHTML = mailReply;
+				// Get AI-generated reply from server
+				console.log('Sending request to server...'); // Debug log
+				const response = await fetch('http://localhost:8000/reply', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						email: emailContent,
+						privacy_mode: getPrivacyMode(),
+					}),
+				});
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+
+				try {
+					const data = await response.json();
+					console.log('Parsed response data:', data); // Debug log
+
+					// Handle both string responses and object responses
+					let replyText = typeof data === 'string' ? data : data.reply;
+
+					if (replyText) {
+						// Replace template placeholders with empty strings
+						replyText = replyText
+							.replace(/\[Sender's Name\]/g, '')
+							.replace(/\[Your Full Name\]/g, '')
+							.replace(/\[Your Contact Information\]/g, '')
+							// Replace newlines with HTML line breaks
+							.replace(/\n/g, '<br>')
+							// Clean up any double line breaks
+							.replace(/<br><br><br>/g, '<br><br>');
+
+						composeBox.innerHTML = replyText;
+					} else {
+						throw new Error('No reply text found in response');
+					}
+				} catch (jsonError) {
+					console.error('Error parsing JSON:', jsonError);
+					// If JSON parsing fails, try using response text directly
+					const textResponse = await response.text();
+					composeBox.innerHTML = textResponse
+						.replace(/\[Sender's Name\]/g, '')
+						.replace(/\[Your Full Name\]/g, '')
+						.replace(/\[Your Contact Information\]/g, '')
+						.replace(/\n/g, '<br>')
+						.replace(/<br><br><br>/g, '<br><br>');
+				}
 
 				// Place cursor at the end
 				const selection = window.getSelection();

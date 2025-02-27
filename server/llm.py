@@ -43,7 +43,7 @@ class EmailState(BaseModel):
 def email_summarizer(email_text , privacy_mode):
 
     if privacy_mode:
-        llm = ChatOllama(model="mistral")
+        llm = ChatOllama(model="phi4:latest")
     else:
         llm = ChatOpenAI(model="gpt-4o-mini")
    
@@ -95,7 +95,7 @@ def email_summarizer(email_text , privacy_mode):
 def email_reply(mail_content , privacy_mode):
 
     if privacy_mode:
-        llm = ChatOllama(model="mistral")
+        llm = ChatOllama(model="phi4:latest")
     else:
         llm = ChatOpenAI(model="gpt-4o-mini")
     

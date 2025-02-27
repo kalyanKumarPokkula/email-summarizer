@@ -1,4 +1,5 @@
 import { getFullEmailDetails } from './emailUtils.js';
+import { getPrivacyMode } from '../components/sidebar.js';
 
 export function waitForEmailContentLoad() {
 	return new Promise((resolve) => {
@@ -59,7 +60,10 @@ export async function generateSummary(emailItem) {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ email: fullEmailDetails }),
+			body: JSON.stringify({
+				email: fullEmailDetails,
+				privacy_mode: getPrivacyMode(),
+			}),
 		});
 
 		if (!response.ok) {
