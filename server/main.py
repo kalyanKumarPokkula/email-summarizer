@@ -1,4 +1,4 @@
-from llm import email_summarizer
+from llm import email_summarizer, email_reply
 from fastapi import FastAPI , HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import json
@@ -26,14 +26,24 @@ def read_root():
 @app.post("/summarize")
 def summarize(body: dict):
     email = body["email"]
-    model = body["model"]
+    privacy_mode = body["privacy_mode"]
     print(email)
     print(type(email))
     # data = email_summarizer(email)
     # print(data)
-    cleaned_json_data = email_summarizer(email, model).strip('```json\n').strip('```')
+    cleaned_json_data = email_summarizer(email, privacy_mode).strip('```json\n').strip('```')
     data = json.loads(cleaned_json_data)
     return data
+
+@app.post("/reply")
+def reply(body : dict):
+    email = body["email"]
+    privacy_mode = body["privacy_mode"]
+
+    response = email_reply(email, privacy_mode)
+    print(response)
+    return response
+
 
 
 # json_Data = "```json\n{\n  \"summary\": \"Chaitanya Gadhe has a Backend Developer contract role opportunity and is seeking Kalyan Kumar's interest and availability for a discussion.\",\n  \"action_items\": [\n    \"Send Chaitanya Gadhe your CV\",\n    \"Respond with a good time for a quick chat\"\n  ]\n}\n```"

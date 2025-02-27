@@ -40,11 +40,11 @@ class EmailState(BaseModel):
     summary: str = None
 
 
-def email_summarizer(email_text , model):
+def email_summarizer(email_text , privacy_mode):
 
-    if model == "local":
+    if privacy_mode:
         llm = ChatOllama(model="mistral")
-    elif model == "openapi":
+    else:
         llm = ChatOpenAI(model="gpt-4o-mini")
    
 
@@ -90,3 +90,27 @@ def email_summarizer(email_text , model):
     output = graph.invoke(initial_input)
 
     return output['summary']
+
+
+def email_reply(mail_content , privacy_mode):
+
+    if privacy_mode:
+        llm = ChatOllama(model="mistral")
+    else:
+        llm = ChatOpenAI(model="gpt-4o-mini")
+    
+    reply_prompt = f"""Please generate an email reply only not the subject to the following email content.
+
+        Email Content:
+        {mail_content}
+
+        Generate Reply:
+"""
+    prompt = [HumanMessage(content=reply_prompt)]
+    response = llm.invoke(prompt)
+    print(response.content)
+
+    return response.content
+
+   
+

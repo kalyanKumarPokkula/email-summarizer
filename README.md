@@ -1,12 +1,13 @@
 # AI-Powered Gmail Summarizer 🚀
 
 ## Overview
-This project is an AI-powered email summarizer that extracts key points and action items from email content. It uses LangChain with either OpenAI's GPT-4o-mini or the local Mistral model (via Ollama) to generate concise and structured JSON summaries of emails.
+This project is an AI-powered email summarizer that extracts key points and action items from email content and reply to a mail. It uses LangChain with either OpenAI's GPT-4o-mini or the local Mistral model (via Ollama) to generate concise and structured JSON summaries of emails.
 
 
 ## Features
 - Extracts and summarizes email content.
 - Identifies key action items from emails.
+- Also we can reply to a mail.
 - Displays the summary within the Gmail interface
 - Supports both OpenAI (gpt-4o-mini) and local (Mistral) models..
 - Backend built with FastAPI for handling AI-powered summarization.
@@ -81,7 +82,7 @@ This project is an AI-powered email summarizer that extracts key points and acti
 ```json
 {
   "email": "<email_content>",
-  "model" : "openapi or local"
+  "privacy_mode" : "openapi or local"
 }
 ```
 
@@ -108,6 +109,22 @@ This project is an AI-powered email summarizer that extracts key points and acti
     "Ensure system meets exam requirements"
   ]
 }
+```
+
+### 2. Reply Email
+**Endpoint:** `POST /reply`
+
+**Request:**
+```json
+{
+  "email": "<email_content>",
+  "privacy_mode" : "openapi or local"
+}
+```
+
+**Response:**
+```json
+ String
 ```
 
 ## Future Improvements
