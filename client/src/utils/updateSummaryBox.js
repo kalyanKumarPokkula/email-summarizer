@@ -19,9 +19,15 @@ export function waitForEmailContentLoad() {
 	});
 }
 
-export function updateSummaryBox(apiResponse) {
+export function updateSummaryBox(apiResponse, timeTaken) {
 	const summaryParagraph = document.querySelector('.mail-summery p');
 	const actionList = document.querySelector('.action-items ul');
+	const timerElement = document.querySelector('.summary-timer');
+
+	// Update the timer display
+	if (timerElement) {
+		timerElement.textContent = `(${timeTaken.toFixed(1)}s)`;
+	}
 
 	summaryParagraph.textContent = apiResponse.summary || 'Summary not found.'; // Display summary or default
 
@@ -43,6 +49,12 @@ export function updateSummaryBox(apiResponse) {
 export async function generateSummary(emailItem) {
 	const summaryParagraph = document.querySelector('.mail-summery p');
 	const actionList = document.querySelector('.action-items ul');
+	const timerElement = document.querySelector('.summary-timer');
+
+	// Reset timer display
+	if (timerElement) {
+		timerElement.textContent = '(0.0s)';
+	}
 
 	// Show loading state
 	summaryParagraph.textContent = 'Loading summary...';
@@ -52,6 +64,9 @@ export async function generateSummary(emailItem) {
 	actionList.appendChild(loadingLi);
 
 	try {
+		// Start timing
+		const startTime = performance.now();
+
 		await waitForEmailContentLoad();
 		const fullEmailDetails = getFullEmailDetails(emailItem);
 
@@ -71,8 +86,15 @@ export async function generateSummary(emailItem) {
 		}
 
 		const data = await response.json();
-		console.log(data);
-		updateSummaryBox(data);
+
+		// Calculate time taken in seconds
+		const endTime = performance.now();
+		const timeTaken = (endTime - startTime) / 1000; // Convert to seconds
+
+		console.log(`Summary generated in ${timeTaken.toFixed(1)} seconds`);
+
+		// Pass the time taken to updateSummaryBox
+		updateSummaryBox(data, timeTaken);
 	} catch (error) {
 		console.error('Error processing email:', error);
 		summaryParagraph.textContent = 'Failed to load summary.';
@@ -80,5 +102,11 @@ export async function generateSummary(emailItem) {
 		const errorLi = document.createElement('li');
 		errorLi.textContent = 'Failed to fetch action items.';
 		actionList.appendChild(errorLi);
+
+		// Update timer to show error
+		if (timerElement) {
+			timerElement.textContent = '(error)';
+			timerElement.style.color = 'red';
+		}
 	}
 }

@@ -40,9 +40,31 @@ export function createSummarySidebar() {
 	// Mail summary section (now will hold combined subject and content)
 	const mailSummary = document.createElement('div');
 	mailSummary.className = 'mail-summery';
+
+	// Create a header container to hold both the summary heading and timer
+	const headerContainer = document.createElement('div');
+	headerContainer.className = 'summary-header-container';
+	headerContainer.style.display = 'flex';
+	headerContainer.style.justifyContent = 'space-between';
+	headerContainer.style.alignItems = 'center';
+
 	const summaryHeader = document.createElement('h3');
-	summaryHeader.textContent = 'Summery:';
-	mailSummary.appendChild(summaryHeader);
+	summaryHeader.textContent = 'Summary:';
+
+	// Create timer element
+	const timerElement = document.createElement('span');
+	timerElement.className = 'summary-timer';
+	timerElement.textContent = '(0.0s)';
+	timerElement.style.fontSize = '0.8em';
+	timerElement.style.color = '#666';
+
+	// Add both elements to the header container
+	headerContainer.appendChild(summaryHeader);
+	headerContainer.appendChild(timerElement);
+
+	// Add the header container to the mail summary
+	mailSummary.appendChild(headerContainer);
+
 	const summaryParagraph = document.createElement('p'); // Element to hold summary from API
 	mailSummary.appendChild(summaryParagraph);
 
