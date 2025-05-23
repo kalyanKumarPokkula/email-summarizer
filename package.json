@@ -1,0 +1,27 @@
+{
+	"name": "email-summarizer",
+	"version": "1.0.0",
+	"description": "AI-powered email summarizer with client and server components",
+	"main": "index.js",
+	"scripts": {
+		"install": "npm run install:client && npm run install:server",
+		"install:client": "cd client && npm install",
+		"install:server": "cd server && pip install -r requirements.txt",
+		"build": "cd client && npm run build",
+		"start:client": "cd client && npm run watch",
+		"start:server": "cd server && uvicorn main:app --reload",
+		"start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+		"dev": "npm run start"
+	},
+	"keywords": [
+		"email",
+		"ai",
+		"summarizer",
+		"extension"
+	],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"concurrently": "^8.2.2"
+	}
+}

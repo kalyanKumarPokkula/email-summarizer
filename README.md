@@ -1,146 +1,112 @@
-# AI-Powered Gmail Summarizer 🚀
+# Email Summarizer
 
-## Overview
-This project is an AI-powered email summarizer that extracts key points and action items from email content and reply to a mail. It uses LangChain with either OpenAI's GPT-4o-mini or the local Mistral model (via Ollama) to generate concise and structured JSON summaries of emails.
-
+AI-powered email summarizer that works with Gmail to provide summaries, action items, and smart replies.
 
 ## Features
-- Extracts and summarizes email content.
-- Identifies key action items from emails.
-- Also we can reply to a mail.
-- Displays the summary within the Gmail interface
-- Supports both OpenAI (gpt-4o-mini) and local (Mistral) models..
-- Backend built with FastAPI for handling AI-powered summarization.
 
-## Technologies Used
-### Frontend:
-- JavaScript (Vanilla JS for DOM manipulation)
-- Gmail API integration
+- **Email Summary**: Get concise summaries of your emails
+- **Action Items**: Extract action items from emails
+- **Smart Reply**: Generate context-aware replies
+- **Privacy Mode**: Option to enable privacy for sensitive email content
+- **Performance Tracking**: See how fast summaries are generated
 
-### Backend:
-- FastAPI (Python)
-- LangChain
-- OpenAI API (GPT-4o-mini) and Local (mistral)
-- Pydantic (Data validation)
+## Project Structure
 
-## Setup Instructions
+```
+email-summarizer/
+├── client/              # Chrome extension frontend
+│   ├── src/             # Source code
+│   ├── dist/            # Compiled extension
+│   └── ...
+├── server/              # FastAPI backend
+│   ├── main.py          # Main API endpoints
+│   ├── llm.py           # LLM integration
+│   └── ...
+└── start.py             # Quick start script
+```
+
+## Quick Start
+
 ### Prerequisites
-- Python 3.8+
-- Node.js (for frontend development)
-- OpenAI API Key
 
-### Backend Setup
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/kalyanKumarPokkula/email-summarizer.git
-   cd email-summarizer/server
+- Python 3.8+
+- Node.js and npm
+- Chrome browser
+
+### Starting the Project
+
+Simply run the start script:
+
+```
+./start.py
+```
+
+This will:
+
+- Check if the server is running and start it if not
+- Build and watch the client for changes
+- Open the Chrome extensions page for you to load the extension
+
+## Manual Setup
+
+### Server Setup
+
+1. Navigate to the server directory:
+
    ```
-2. Create a virtual environment and activate it:
-   ```sh
-   python -m venv venv
-   source venv/bin/activate   # For macOS/Linux
-   venv\Scripts\activate      # For Windows
+   cd server
    ```
-3. Install dependencies:
-   ```sh
+
+2. Install dependencies:
+
+   ```
    pip install -r requirements.txt
    ```
-4. Set up environment variables:
-   ```sh
-   export OPENAI_API_KEY=your_openai_api_key  # macOS/Linux
-   set OPENAI_API_KEY=your_openai_api_key     # Windows
+
+3. Start the server:
    ```
-5. Start the FastAPI server:
-   ```sh
    uvicorn main:app --reload
    ```
 
-### Frontend Setup
-1. Navigate to the frontend directory:
-   ```sh
-   cd ../client
+### Client Setup
+
+1. Navigate to the client directory:
+
    ```
-2. Install dependencies (if applicable):
-   ```sh
-   npm install  # Optional, if using a package manager
+   cd client
    ```
-3. Load the extension:
-   - Open **Google Chrome** and go to `chrome://extensions/`.
-   - Enable **Developer Mode** (top-right corner).
-   - Click **Load unpacked** and select the `frontend/` folder.
 
-### Running the Application
-1. Open **Gmail** in your Chrome browser.
-2. Click on an email; the summarization tool should appear.
-3. Click "Summarize Email" to generate the summary and action items.
+2. Install dependencies:
 
-## API Endpoints
-### 1. Summarize Email
-**Endpoint:** `POST /summarize`
+   ```
+   npm install
+   ```
 
-**Request:**
-```json
-{
-  "email": "<email_content>",
-  "privacy_mode" : "openapi or local"
-}
-```
+3. Build and watch for changes:
+   ```
+   npm run watch
+   ```
 
-**Response:**
-```json
-{
-  "summary": "string",
-  "actionItems": ["string1", "string2"]
-}
-```
+## Loading the Extension in Chrome
 
-## Example Output
-**Email:**
-> Subject: Action Required: Check System Compatibility
-> Dear User, Please test your laptop compatibility for the exam platform...
+1. Open Chrome and go to `chrome://extensions/`
+2. Enable "Developer mode"
+3. Click "Load unpacked"
+4. Select the `client/dist` directory
 
-**AI Output:**
-```json
-{
-  "summary": "Test your laptop for exam compatibility using the provided credentials.",
-  "actionItems": [
-    "Download SEBLite tool",
-    "Disable antivirus & firewall",
-    "Ensure system meets exam requirements"
-  ]
-}
-```
+## How to Use
 
-### 2. Reply Email
-**Endpoint:** `POST /reply`
+1. Open Gmail in Chrome
+2. Select an email to read
+3. The extension sidebar will appear with:
+   - Email summary
+   - Action items (if any)
+   - Options to copy, double-check, or reply
 
-**Request:**
-```json
-{
-  "email": "<email_content>",
-  "privacy_mode" : "openapi or local"
-}
-```
+### Privacy Mode
 
-**Response:**
-```json
- String
-```
-
-## Future Improvements
-- Enhance UI/UX with React.
-- Store user preferences and summaries in a database.
-- Support summarization for attachments and forwarded emails.
-
-## Contributing
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Commit your changes (`git commit -m 'Add feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Open a Pull Request.
+Toggle privacy mode in the extension sidebar to prevent sending sensitive email content to the summarization service.
 
 ## License
-This project is licensed under the MIT License.
 
-
-
+ISC

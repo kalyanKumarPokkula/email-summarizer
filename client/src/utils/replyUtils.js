@@ -1,5 +1,5 @@
 import { getFullEmailDetails } from './emailUtils.js';
-import { getPrivacyMode } from '../components/sidebar.js';
+import { getPrivacyMode, getOpenAIApiKey } from '../components/sidebar.js';
 
 export async function handleReply() {
 	try {
@@ -30,6 +30,25 @@ export async function handleReply() {
 				// Show loading state
 				composeBox.innerHTML = 'Generating reply...<br><br>';
 
+				// Prepare request body
+				const requestBody = {
+					email_content: emailContent,
+					privacy_mode: getPrivacyMode(),
+				};
+
+				// If privacy mode is off, get and add the API key
+				if (!requestBody.privacy_mode) {
+					const apiKey = getOpenAIApiKey();
+					if (apiKey) {
+						requestBody.openai_api_key = apiKey;
+					} else {
+						// Handle missing API key when not in privacy mode
+						console.error('OpenAI API Key is missing and Privacy Mode is OFF. Reply generation aborted.');
+						composeBox.innerHTML = 'Error: OpenAI API Key is missing. Please set it in the sidebar.<br><br>';
+						return; // Stop execution
+					}
+				}
+
 				// Get AI-generated reply from server
 				console.log('Sending request to server...'); // Debug log
 				const response = await fetch('http://localhost:8000/reply', {
@@ -37,10 +56,7 @@ export async function handleReply() {
 					headers: {
 						'Content-Type': 'application/json',
 					},
-					body: JSON.stringify({
-						email: emailContent,
-						privacy_mode: getPrivacyMode(),
-					}),
+					body: JSON.stringify(requestBody),
 				});
 
 				if (!response.ok) {

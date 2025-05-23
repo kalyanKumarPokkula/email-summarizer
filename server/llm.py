@@ -9,13 +9,7 @@ from langchain_ollama import ChatOllama
 
 
 
-import os, getpass
-
-def _set_env(var: str):
-    if not os.environ.get(var):
-        os.environ[var] = getpass.getpass(f"{var}: ")
-
-_set_env("OPENAI_API_KEY")
+import os
 
 sys_prompt = """You are a world-class email analyst, specializing in concise summarization and focused action item detection. Your primary function is to analyze email content and provide structured JSON output.
 
@@ -40,12 +34,16 @@ class EmailState(BaseModel):
     summary: str = None
 
 
-def email_summarizer(email_text , privacy_mode):
+def email_summarizer(email_text: str, privacy_mode: bool, openai_api_key: str = None):
 
     if privacy_mode:
-        llm = ChatOllama(model="phi4:latest")
+        llm = ChatOllama(model="phi3:latest")
     else:
-        llm = ChatOpenAI(model="gpt-4o-mini")
+        if not openai_api_key:
+            openai_api_key = os.environ.get("OPENAI_API_KEY")
+            if not openai_api_key:
+                 raise ValueError("OpenAI API key is required when privacy mode is off and not provided.")
+        llm = ChatOpenAI(model="gpt-4o-mini", api_key=openai_api_key)
    
 
     def summarize_email(state : EmailState):
@@ -92,12 +90,16 @@ def email_summarizer(email_text , privacy_mode):
     return output['summary']
 
 
-def email_reply(mail_content , privacy_mode):
+def email_reply(mail_content: str, privacy_mode: bool, openai_api_key: str = None):
 
     if privacy_mode:
-        llm = ChatOllama(model="phi4:latest")
+        llm = ChatOllama(model="phi3:latest")
     else:
-        llm = ChatOpenAI(model="gpt-4o-mini")
+        if not openai_api_key:
+            openai_api_key = os.environ.get("OPENAI_API_KEY")
+            if not openai_api_key:
+                 raise ValueError("OpenAI API key is required for replies when privacy mode is off and not provided.")
+        llm = ChatOpenAI(model="gpt-4o-mini", api_key=openai_api_key)
     
     reply_prompt = f"""Please generate an email reply only not the subject to the following email content.
 
@@ -111,6 +113,3 @@ def email_reply(mail_content , privacy_mode):
     print(response.content)
 
     return response.content
-
-   
-

@@ -1,5 +1,5 @@
 import { getFullEmailDetails } from './emailUtils.js';
-import { getPrivacyMode } from '../components/sidebar.js';
+import { getPrivacyMode, getOpenAIApiKey } from '../components/sidebar.js';
 
 export function waitForEmailContentLoad() {
 	return new Promise((resolve) => {
@@ -70,15 +70,35 @@ export async function generateSummary(emailItem) {
 		await waitForEmailContentLoad();
 		const fullEmailDetails = getFullEmailDetails(emailItem);
 
+		// Prepare request body
+		const requestBody = {
+			email: fullEmailDetails,
+			privacy_mode: getPrivacyMode(),
+		};
+
+		// If privacy mode is off, get and add the API key
+		if (!requestBody.privacy_mode) {
+			const apiKey = getOpenAIApiKey();
+			if (apiKey) {
+				requestBody.openai_api_key = apiKey;
+			} else {
+				// Handle missing API key when not in privacy mode (e.g., show error, prevent call)
+				console.error('OpenAI API Key is missing and Privacy Mode is OFF. Summary generation aborted.');
+				summaryParagraph.textContent = 'Error: OpenAI API Key is missing. Please set it in the sidebar.';
+				actionList.innerHTML = '';
+				const errorLi = document.createElement('li');
+				errorLi.textContent = 'API Key required for OpenAI.';
+				actionList.appendChild(errorLi);
+				return; // Stop execution if API key is needed but missing
+			}
+		}
+
 		const response = await fetch('http://localhost:8000/summarize', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({
-				email: fullEmailDetails,
-				privacy_mode: getPrivacyMode(),
-			}),
+			body: JSON.stringify(requestBody), // Use the prepared requestBody
 		});
 
 		if (!response.ok) {

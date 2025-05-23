@@ -4,6 +4,7 @@ import { handleReply } from '../utils/replyUtils.js';
 
 // Add this near the top of the file, after the imports
 let privacyMode = false;
+let openaiApiKey = localStorage.getItem('openai_api_key'); // Load API key on init
 
 export function createSummarySidebar() {
 	// Create sidebar container
@@ -17,6 +18,10 @@ export function createSummarySidebar() {
 	// Create navigation header
 	const nav = document.createElement('nav');
 	nav.className = 'nav-header';
+	// Make nav header display flex for close button positioning
+	nav.style.display = 'flex';
+	nav.style.justifyContent = 'space-between';
+	nav.style.alignItems = 'center';
 
 	// Create back button (hidden initially)
 	const backButton = document.createElement('button');
@@ -28,9 +33,27 @@ export function createSummarySidebar() {
 	const headerText = document.createElement('h1');
 	headerText.innerHTML = 'MailMind AI ✨';
 
+	// Create close button
+	const closeButton = document.createElement('button');
+	closeButton.className = 'close-button';
+	closeButton.innerHTML = '✖';
+	closeButton.style.background = 'transparent';
+	closeButton.style.border = 'none';
+	closeButton.style.fontSize = '1.2em';
+	closeButton.style.cursor = 'pointer';
+	closeButton.style.padding = '5px';
+	closeButton.title = 'Close sidebar';
+
+	// Create a div to group back button and header text
+	const leftGroup = document.createElement('div');
+	leftGroup.style.display = 'flex';
+	leftGroup.style.alignItems = 'center';
+
 	// Assemble nav
-	nav.appendChild(backButton);
-	nav.appendChild(headerText);
+	leftGroup.appendChild(backButton);
+	leftGroup.appendChild(headerText);
+	nav.appendChild(leftGroup);
+	nav.appendChild(closeButton);
 
 	// Create summary box (hidden initially)
 	const summaryBox = document.createElement('div');
@@ -153,6 +176,68 @@ export function createSummarySidebar() {
 	introCopy.appendChild(tryNowBtn);
 	introCopy.appendChild(privacyToggle);
 
+	// --- BEGIN API KEY INPUT FIELD --- 
+	const apiKeyContainer = document.createElement('div');
+	apiKeyContainer.className = 'api-key-container';
+	apiKeyContainer.style.marginTop = '15px'; // Add some spacing
+	apiKeyContainer.style.display = 'none'; // Initially hidden
+
+	const apiKeyLabel = document.createElement('label');
+	apiKeyLabel.textContent = 'OpenAI API Key:';
+	apiKeyLabel.style.display = 'block';
+	apiKeyLabel.style.marginBottom = '5px';
+
+	const apiKeyInput = document.createElement('input');
+	apiKeyInput.type = 'password'; // Use password type to obscure the key
+	apiKeyInput.placeholder = 'Enter your OpenAI API Key';
+	apiKeyInput.style.width = 'calc(100% - 12px)'; // Adjust width to fit padding
+	apiKeyInput.style.padding = '5px';
+	apiKeyInput.style.marginBottom = '5px';
+	apiKeyInput.style.border = '1px solid #ccc';
+	apiKeyInput.style.borderRadius = '3px';
+
+	const apiKeySaveButton = document.createElement('button');
+	apiKeySaveButton.textContent = 'Save API Key';
+	apiKeySaveButton.style.padding = '5px 10px';
+	apiKeySaveButton.style.border = 'none';
+	apiKeySaveButton.style.backgroundColor = '#32cd32';
+	apiKeySaveButton.style.color = 'white';
+	apiKeySaveButton.style.cursor = 'pointer';
+	apiKeySaveButton.style.borderRadius = '3px';
+
+	apiKeyContainer.appendChild(apiKeyLabel);
+	apiKeyContainer.appendChild(apiKeyInput);
+	apiKeyContainer.appendChild(apiKeySaveButton);
+	introCopy.appendChild(apiKeyContainer);
+
+	// Function to update API key input visibility
+	function updateApiKeyInputVisibility() {
+		openaiApiKey = localStorage.getItem('openai_api_key'); // Refresh stored key
+		if (!privacyMode && !openaiApiKey) {
+			apiKeyContainer.style.display = 'block';
+		} else {
+			apiKeyContainer.style.display = 'none';
+		}
+	}
+
+	// Initial check for API key input visibility
+	updateApiKeyInputVisibility();
+
+	// Event listener for saving API key
+	apiKeySaveButton.addEventListener('click', () => {
+		const key = apiKeyInput.value.trim();
+		if (key) {
+			localStorage.setItem('openai_api_key', key);
+			openaiApiKey = key; // Update local variable
+			apiKeyInput.value = ''; // Clear the input field
+			updateApiKeyInputVisibility(); // Hide the input field
+			// alert('OpenAI API Key saved!'); // Optional: notify user
+		} else {
+			alert('Please enter a valid API Key.');
+		}
+	});
+	// --- END API KEY INPUT FIELD ---
+
 	// Assemble container
 	container.appendChild(nav);
 	container.appendChild(summaryBox);
@@ -166,6 +251,8 @@ export function createSummarySidebar() {
 		backButton.style.display = 'none';
 		// Show intro copy
 		introCopy.style.display = 'block';
+		// Also check API key input visibility when going back to intro
+		updateApiKeyInputVisibility(); 
 	});
 
 	// Modify your existing monitorEmailClicks function to show back button
@@ -196,9 +283,17 @@ export function createSummarySidebar() {
 	});
 
 	// Update the privacy toggle event listener
-	toggleInput.addEventListener('change', (event) => {
-		privacyMode = event.target.checked;
-		console.log('Privacy Mode:', privacyMode);
+	toggleInput.addEventListener('change', () => {
+		privacyMode = toggleInput.checked;
+		console.log('Privacy Mode:', privacyMode ? 'ON' : 'OFF');
+		// Update API key input visibility when toggle changes
+		updateApiKeyInputVisibility(); 
+	});
+
+	// Add close button functionality
+	closeButton.addEventListener('click', () => {
+		// Hide the entire sidebar
+		sidebar.style.display = 'none';
 	});
 
 	return sidebar;
@@ -207,4 +302,9 @@ export function createSummarySidebar() {
 // Add this export so other files can access the privacy mode
 export function getPrivacyMode() {
 	return privacyMode;
+}
+
+// Add this export to get the stored API key
+export function getOpenAIApiKey() {
+	return localStorage.getItem('openai_api_key');
 }
