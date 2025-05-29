@@ -1,0 +1,345 @@
+/* Styles for WelcomeScreen.jsx */
+
+/* Styles from the newer UI design for Welcome Screen */
+/* .welcome-screen-mailmind is used by App.jsx as a wrapper for WelcomeScreen component,
+   but the component itself might use more specific classes or style its root differently.
+   Assuming the component's root takes full height/width of its container. */
+
+.mailmind-title {
+	/* This was likely part of the old design or a general brand element */
+	font-size: 20px;
+	font-weight: bold;
+	color: #f28b82;
+}
+
+.mailmind-header {
+	/* Used in WelcomeScreen.jsx */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 5%; /* Can be adjusted or made more specific */
+	margin-bottom: 20px;
+	padding: 0 20px; /* Assuming padding is needed if not full width */
+}
+
+.mailmind-close-button {
+	/* Used in WelcomeScreen.jsx for the close button */
+	background: none;
+	border: none;
+	color: #9aa0a6;
+	font-size: 24px;
+	cursor: pointer;
+	padding: 0;
+	line-height: 1;
+}
+
+/* Styles for the main title on the welcome screen */
+.mailmind-main-title {
+	font-size: 18px; /* Example: Adjust as needed */
+	font-weight: 500;
+	color: #e8eaed;
+	margin-top: 0;
+	margin-bottom: 16px;
+	line-height: 1.3;
+	padding: 0 20px;
+}
+
+/* Features list from the new design */
+.mailmind-features-list {
+	list-style: none;
+	padding-left: 0;
+	margin-top: 0;
+	margin-bottom: 24px;
+	padding: 0 20px;
+}
+
+.mailmind-features-list li {
+	font-size: 14px;
+	margin-bottom: 8px;
+	color: #bdc1c6;
+}
+
+.mailmind-checkmark {
+	color: #81c995;
+	margin-right: 8px;
+}
+
+/* How It Works Section from new design */
+.mailmind-how-it-works-container {
+	background-color: #303134;
+	padding: 16px;
+	border-radius: 8px;
+	margin: 0 20px 24px 20px; /* Added horizontal margin to match padding */
+}
+
+.mailmind-section-title {
+	/* Shared by "How it works" and "Settings" in new design */
+	font-size: 18px;
+	font-weight: 500;
+	color: #e8eaed;
+	margin-top: 12px; /* Adjusted from 0 */
+	margin-bottom: 12px;
+	/* padding-top: 16px; Removed, let container handle padding */
+	text-align: left; /* Ensuring it's left aligned */
+}
+
+.mailmind-how-it-works-steps {
+	display: flex;
+	justify-content: space-around;
+	align-items: flex-start;
+	margin-bottom: 0; /* Removed default margin, container has it */
+	gap: 10px;
+}
+
+.mailmind-how-it-works-step {
+	text-align: center;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.mailmind-step-number {
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	background-color: #3c4043;
+	color: #e8eaed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: 8px;
+}
+
+.mailmind-step-text {
+	font-size: 13px;
+	color: #bdc1c6;
+	line-height: 1.4;
+	margin: 0;
+}
+
+/* Settings Section from new design (within Welcome Screen) */
+.mailmind-settings-section {
+	/* margin-top: auto; This might be tricky if not the direct child of a flex container */
+	padding: 0 20px; /* Horizontal padding */
+	margin-top: 24px; /* Space above settings */
+}
+
+.summary-sidebar-mailmind .settings-section-mailmind {
+	/* Original settings section */
+	margin-top: 20px;
+	padding-top: 20px; /* This was for a border-top */
+	border-top: 1px solid #2d3748;
+	text-align: left;
+}
+
+/* Privacy Toggle */
+.mailmind-privacy-toggle-container {
+	/* Used in WelcomeScreen.jsx */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #303134;
+	padding: 12px 16px;
+	border-radius: 8px 8px 0 0; /* Top corners rounded */
+	margin-bottom: 0; /* No margin if description follows directly */
+}
+
+.mailmind-toggle-label {
+	/* Used in WelcomeScreen.jsx */
+	font-size: 14px;
+	font-weight: 500;
+	color: #e8eaed;
+	margin-right: 0; /* space-between handles spacing */
+	flex-grow: 1;
+}
+
+.mailmind-privacy-description {
+	/* Used in WelcomeScreen.jsx */
+	font-size: 12px;
+	color: #9aa0a6;
+	line-height: 1.4;
+	padding: 8px 16px 16px 16px;
+	background-color: #303134; /* Match toggle container */
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	margin-top: -1px; /* To visually merge with the toggle container */
+	position: relative;
+	z-index: 0;
+}
+
+/* Toggle Switch Styles (shared by old and new, ensure consistency) */
+.summary-sidebar-mailmind .switch-mailmind,
+.mailmind-switch {
+	position: relative;
+	display: inline-block;
+	width: 40px; /* Adjusted from 44px for mailmind-switch */
+	height: 20px; /* Adjusted from 24px for mailmind-switch */
+	float: right; /* If still using float for mailmind-switch */
+}
+
+.summary-sidebar-mailmind .switch-mailmind input,
+.mailmind-switch input {
+	opacity: 0; /* display: none; in old styles */
+	width: 0;
+	height: 0;
+}
+
+.summary-sidebar-mailmind .slider-mailmind,
+.mailmind-slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #5f6368; /* #3e4c62 in old styles */
+	transition: 0.4s;
+	border-radius: 20px; /* 24px in old styles */
+}
+
+.summary-sidebar-mailmind .slider-mailmind:before,
+.mailmind-slider:before {
+	position: absolute;
+	content: '';
+	height: 16px; /* 18px in old styles */
+	width: 16px; /* 18px in old styles */
+	left: 2px; /* 3px in old styles */
+	bottom: 2px; /* 3px in old styles */
+	background-color: white;
+	transition: 0.4s;
+	border-radius: 50%;
+}
+
+/* Checked state for new switch style */
+.mailmind-switch input:checked + .mailmind-slider {
+	background-color: #f28b82; /* Coral color from new design */
+}
+.mailmind-switch input:focus + .mailmind-slider {
+	box-shadow: 0 0 1px #f28b82;
+}
+.mailmind-switch input:checked + .mailmind-slider:before {
+	transform: translateX(20px); /* Slider travel distance */
+}
+
+/* Checked state for old switch style (if still in use or for reference) */
+.summary-sidebar-mailmind input:checked + .slider-mailmind {
+	background-color: #38a169; /* Green from old design */
+}
+.summary-sidebar-mailmind input:checked + .slider-mailmind:before {
+	transform: translateX(
+		20px
+	); /* Matches the new one, ensure width is compatible */
+}
+
+/* API Key Container */
+.summary-sidebar-mailmind .api-key-container-mailmind {
+	/* Original styling */
+	background-color: #1a2233;
+	padding: 15px;
+	border-radius: 8px;
+	margin-top: 10px;
+	border: 1px solid #2d3748;
+}
+.summary-sidebar-mailmind .api-key-container-mailmind label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 500;
+	font-size: 0.9em;
+}
+.summary-sidebar-mailmind .api-key-container-mailmind input[type='password'] {
+	width: calc(100% - 22px);
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #3e4c62;
+	border-radius: 4px;
+	background-color: #202124;
+	color: white;
+	font-size: 0.9em;
+}
+.summary-sidebar-mailmind .api-key-container-mailmind button {
+	padding: 8px 15px;
+	border: none;
+	border-radius: 4px;
+	background-color: #38a169;
+	color: white;
+	cursor: pointer;
+	font-weight: 500;
+	font-size: 0.9em;
+}
+
+/* New API Key Container styling */
+.mailmind-api-key-container {
+	/* Used in WelcomeScreen.jsx */
+	padding: 16px; /* Slightly different padding */
+	background-color: #303134; /* New background color */
+	border-radius: 8px;
+	margin-top: 10px; /* Keep margin */
+	margin-left: 20px; /* Add horizontal margin */
+	margin-right: 20px; /* Add horizontal margin */
+}
+
+.mailmind-api-key-container label {
+	display: block;
+	margin-bottom: 6px; /* Adjusted margin */
+	font-size: 13px; /* Adjusted font size */
+	color: #bdc1c6;
+}
+
+.mailmind-api-key-container input[type='password'] {
+	width: calc(100% - 20px); /* Adjusted width calculation */
+	padding: 8px 10px; /* Adjusted padding */
+	margin-bottom: 10px;
+	border: 1px solid #5f6368; /* New border color */
+	border-radius: 4px;
+	background-color: #202124; /* Consistent input background */
+	color: #e8eaed;
+	font-size: 13px;
+}
+
+/* General Button Style from new design (if applicable to API key save button) */
+.mailmind-button {
+	background-color: #8ab4f8; /* Light blue from new design */
+	color: #202124; /* Dark text */
+	border: none;
+	padding: 8px 12px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: 500;
+	transition: background-color 0.2s;
+}
+
+.mailmind-button:hover {
+	background-color: #9ac0f9;
+}
+
+/* Footer styles specific to WelcomeScreen, if any (the image shows a footer in SummaryView) */
+/* .mailmind-footer might be shared or specific. The Welcome Screen design does not show a distinct footer */
+/* For now, footer styles will be assumed to be part of SummaryView or general. */
+
+/* Placeholder for logo if it were part of WelcomeScreen */
+.mailmind-logo-placeholder {
+	text-align: center;
+	padding: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #f28b82;
+	margin-bottom: 10px;
+}
+
+/* Ensure padding/margins for welcome screen sections are consistent */
+.welcome-screen-mailmind
+	> div:not(.mailmind-header):not(.mailmind-how-it-works-container):not(
+		.mailmind-api-key-container
+	):not(.mailmind-settings-section) {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.welcome-screen-mailmind .mailmind-settings-section .mailmind-section-title {
+	padding-left: 0; /* Reset padding if parent has it */
+	padding-right: 0;
+}

@@ -64,29 +64,48 @@ function initMailMindSidebar() {
 // It then tries to find the currently active email in Gmail.
 async function handleEmailSelection() {
 	console.log('MailMind AI: handleEmailSelection triggered.');
-	// It might take a brief moment for Gmail to fully render the clicked email and make it '.zA.yO'
-	// A small timeout can make this more reliable, but let's test without it first.
-	// setTimeout(async () => {
-	const emailItem = document.querySelector('.zA.yO'); // Gmail selector for an open/active email item
+	const emailItem = document.querySelector('.zA.yO'); // Try to find the currently opened email
+
+	if (window.showSummaryViewInReact) {
+		// Immediately switch to SummaryView with a loading message
+		console.log(
+			'MailMind AI: Immediately switching to SummaryView with loading state.'
+		);
+		window.showSummaryViewInReact({
+			summary: 'Generating summary, please wait...',
+			actionItems: [], // Start with empty or placeholder action items
+			timeTaken: 0,
+			// We can add an isLoading flag if App.jsx or SummaryView.jsx needs to behave differently
+			// For now, the summary text itself indicates loading.
+		});
+	} else {
+		console.error(
+			'MailMind AI: window.showSummaryViewInReact is not available to show loading state.'
+		);
+		// If this happens, the UI won't switch immediately, which is not ideal.
+	}
+
 	if (emailItem) {
 		console.log(
-			'MailMind AI: Email item found (.zA.yO), proceeding with summary.'
+			'MailMind AI: Email item found (.zA.yO), proceeding with summary generation.'
 		);
-		await generateSummary(emailItem); // This calls window.showSummaryViewInReact
+		// generateSummary will fetch the actual summary and call showSummaryViewInReact again with real data
+		await generateSummary(emailItem);
 	} else {
 		console.warn(
-			'MailMind AI: No active email item (.zA.yO) found to summarize.'
+			'MailMind AI: No active email item (.zA.yO) found to summarize after attempting to switch view.'
 		);
 		if (window.showSummaryViewInReact) {
+			// Update the view from "Generating..." to an error/instruction message
 			window.showSummaryViewInReact({
-				summary: 'Please open an email in Gmail to summarize.', // Changed message slightly
+				summary:
+					'Could not find an opened email to summarize. Please click an email to open it fully.',
 				actionItems: [],
 				timeTaken: 0,
-				error: true,
+				error: true, // You might add an error flag for App.jsx to handle if needed
 			});
 		}
 	}
-	// }, 100); // 100ms delay - adjust if needed
 }
 
 function setupGlobalEmailClickListener() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import './WelcomeScreen.css';
 
 const WelcomeScreen = ({
 	privacyMode,
@@ -30,28 +31,28 @@ const WelcomeScreen = ({
 
 			<ul className="mailmind-features-list">
 				<li>
-					✅ Summerize emails
+					<span className="mailmind-checkmark">✔</span> Summarize emails
 				</li>
 				<li>
-					✅  Reply smart
+					<span className="mailmind-checkmark">✔</span> Reply smart
 				</li>
 				<li>
-					✅  Extract action items
+					<span className="mailmind-checkmark">✔</span> Extract action items
 				</li>
 			</ul>
 			<div className="mailmind-how-it-works-container">
 				<h3 className="mailmind-section-title">How It Works</h3>
 				<div className="mailmind-how-it-works-steps">
 					<div className="mailmind-how-it-works-step">
-						<div className="mailmind-step-number">1️⃣</div>
+						<div className="mailmind-step-number">1</div>
 						<p className="mailmind-step-text">Open your email</p>
 					</div>
 					<div className="mailmind-how-it-works-step">
-						<div className="mailmind-step-number">2️⃣</div>
+						<div className="mailmind-step-number">2</div>
 						<p className="mailmind-step-text">Let MailMind summarize</p>
 					</div>
 					<div className="mailmind-how-it-works-step">
-						<div className="mailmind-step-number">3️⃣</div>
+						<div className="mailmind-step-number">3</div>
 						<p className="mailmind-step-text">Copy or reply instantly</p>
 					</div>
 				</div>
@@ -70,7 +71,8 @@ const WelcomeScreen = ({
 					</label>
 				</div>
 				<p className="mailmind-privacy-description">
-					*If you consern about sharing information outside, use Privacy Mode which uses the local LLM's so expect delay based on your system specs.
+					*If you consern about sharing information outside, use Privacy Mode
+					which uses the local LLM's so expect delay based on your system specs.
 				</p>
 				{showApiKeyInput && (
 					<div className="mailmind-api-key-container">
