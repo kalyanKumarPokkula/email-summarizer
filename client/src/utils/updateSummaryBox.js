@@ -1,5 +1,6 @@
 import { getFullEmailDetails } from './emailUtils.js';
-import { getPrivacyMode, getOpenAIApiKey } from '../components/sidebar.js';
+// The getPrivacyMode and getOpenAIApiKey will be imported into App.jsx or sidebar_logic.js
+// No longer directly needed here if generateSummary is only about fetching and passing data.
 
 export function waitForEmailContentLoad() {
 	return new Promise((resolve) => {
@@ -19,78 +20,33 @@ export function waitForEmailContentLoad() {
 	});
 }
 
-export function updateSummaryBox(apiResponse, timeTaken) {
-	const summaryParagraph = document.querySelector('.mail-summery p');
-	const actionList = document.querySelector('.action-items ul');
-	const timerElement = document.querySelector('.summary-timer');
-
-	// Update the timer display
-	if (timerElement) {
-		timerElement.textContent = `(${timeTaken.toFixed(1)}s)`;
-	}
-
-	summaryParagraph.textContent = apiResponse.summary || 'Summary not found.'; // Display summary or default
-
-	actionList.innerHTML = ''; // Clear existing action items
-
-	if (apiResponse['actionItems'] && apiResponse['actionItems'].length > 0) {
-		apiResponse['actionItems'].forEach((item) => {
-			const li = document.createElement('li');
-			li.textContent = item;
-			actionList.appendChild(li);
-		});
-	} else {
-		const li = document.createElement('li');
-		li.textContent = 'No Action Items';
-		actionList.appendChild(li);
-	}
-}
+// updateSummaryBox is no longer needed as React will handle DOM updates.
+// export function updateSummaryBox(apiResponse, timeTaken) { ... }
 
 export async function generateSummary(emailItem) {
-	const summaryParagraph = document.querySelector('.mail-summery p');
-	const actionList = document.querySelector('.action-items ul');
-	const timerElement = document.querySelector('.summary-timer');
+	// Loading state will be handled by React component now.
+	// const summaryParagraph = document.querySelector('.mail-summery p');
+	// const actionList = document.querySelector('.action-items ul');
+	// const timerElement = document.querySelector('.summary-timer');
 
-	// Reset timer display
-	if (timerElement) {
-		timerElement.textContent = '(0.0s)';
-	}
-
-	// Show loading state
-	summaryParagraph.textContent = 'Loading summary...';
-	actionList.innerHTML = '';
-	const loadingLi = document.createElement('li');
-	loadingLi.textContent = 'Fetching action items...';
-	actionList.appendChild(loadingLi);
+	console.log('generateSummary called for email item:', emailItem);
 
 	try {
-		// Start timing
 		const startTime = performance.now();
-
 		await waitForEmailContentLoad();
 		const fullEmailDetails = getFullEmailDetails(emailItem);
 
-		// Prepare request body
+		// Fetch privacy mode and API key for the request
+		const privacyMode = localStorage.getItem('privacyMode') === 'true';
+		const apiKey = localStorage.getItem('openai_api_key');
+
 		const requestBody = {
 			email: fullEmailDetails,
-			privacy_mode: getPrivacyMode(),
+			privacy_mode: privacyMode,
+			// Conditionally add API key if not in privacy mode and key exists
 		};
-
-		// If privacy mode is off, get and add the API key
-		if (!requestBody.privacy_mode) {
-			const apiKey = getOpenAIApiKey();
-			if (apiKey) {
-				requestBody.openai_api_key = apiKey;
-			} else {
-				// Handle missing API key when not in privacy mode (e.g., show error, prevent call)
-				console.error('OpenAI API Key is missing and Privacy Mode is OFF. Summary generation aborted.');
-				summaryParagraph.textContent = 'Error: OpenAI API Key is missing. Please set it in the sidebar.';
-				actionList.innerHTML = '';
-				const errorLi = document.createElement('li');
-				errorLi.textContent = 'API Key required for OpenAI.';
-				actionList.appendChild(errorLi);
-				return; // Stop execution if API key is needed but missing
-			}
+		if (!privacyMode && apiKey) {
+			requestBody.openai_api_key = apiKey;
 		}
 
 		const response = await fetch('http://localhost:8000/summarize', {
@@ -98,7 +54,7 @@ export async function generateSummary(emailItem) {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(requestBody), // Use the prepared requestBody
+			body: JSON.stringify(requestBody),
 		});
 
 		if (!response.ok) {
@@ -106,27 +62,33 @@ export async function generateSummary(emailItem) {
 		}
 
 		const data = await response.json();
-
-		// Calculate time taken in seconds
 		const endTime = performance.now();
-		const timeTaken = (endTime - startTime) / 1000; // Convert to seconds
+		const timeTaken = (endTime - startTime) / 1000;
 
-		console.log(`Summary generated in ${timeTaken.toFixed(1)} seconds`);
+		console.log(`Summary generated in ${timeTaken.toFixed(1)} seconds`, data);
 
-		// Pass the time taken to updateSummaryBox
-		updateSummaryBox(data, timeTaken);
+		// Call the function exposed by React to update the UI
+		if (window.showSummaryViewInReact) {
+			window.showSummaryViewInReact({
+				summary: data.summary,
+				actionItems: data.actionItems,
+				timeTaken: timeTaken,
+			});
+		} else {
+			console.error(
+				'React callback function (showSummaryViewInReact) not found.'
+			);
+		}
 	} catch (error) {
 		console.error('Error processing email:', error);
-		summaryParagraph.textContent = 'Failed to load summary.';
-		actionList.innerHTML = '';
-		const errorLi = document.createElement('li');
-		errorLi.textContent = 'Failed to fetch action items.';
-		actionList.appendChild(errorLi);
-
-		// Update timer to show error
-		if (timerElement) {
-			timerElement.textContent = '(error)';
-			timerElement.style.color = 'red';
+		// Optionally, update React view with error state
+		if (window.showSummaryViewInReact) {
+			window.showSummaryViewInReact({
+				summary: 'Failed to load summary.',
+				actionItems: ['Failed to fetch action items.'],
+				timeTaken: 0,
+				error: true,
+			});
 		}
 	}
 }

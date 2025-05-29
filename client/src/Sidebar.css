@@ -1,0 +1,835 @@
+.summary-sidebar-mailmind {
+	background-color: #202124;
+	color: #ffffff;
+	padding: 0;
+	width: 360px;
+	height: 100%; /* Changed from 100vh to 100% to match parent container */
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	margin-left: 15px;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+		Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+.summary-sidebar-mailmind .nav-header-mailmind {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 20px;
+	background-color: #202124;
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+.summary-sidebar-mailmind .nav-header-mailmind h1 {
+	font-size: 1.4em;
+	font-weight: bold;
+	margin: 0;
+}
+
+.summary-sidebar-mailmind .nav-header-mailmind .back-button-mailmind,
+.summary-sidebar-mailmind .nav-header-mailmind .close-button-mailmind {
+	color: #ffffff;
+	background: transparent;
+	border: none;
+	font-size: 1.5em;
+	cursor: pointer;
+}
+
+.summary-sidebar-mailmind .nav-header-mailmind .close-button-mailmind {
+	font-size: 1.3em;
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind {
+	padding: 0 20px 20px 20px;
+	text-align: center;
+	flex-grow: 1;
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind h2 {
+	font-size: 2em;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	line-height: 1.2;
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind .sub-heading-mailmind {
+	font-size: 0.95em;
+	margin-bottom: 25px;
+	color: #cbd5e0;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.sub-heading-mailmind
+	.emoji {
+	color: #48bb78;
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind .action-buttons-mailmind {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+	margin-bottom: 25px;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.action-buttons-mailmind
+	button {
+	padding: 12px 20px;
+	border: none;
+	border-radius: 25px;
+	font-size: 1em;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.action-buttons-mailmind
+	button:active {
+	transform: scale(0.98);
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind .get-extension-btn-mailmind {
+	background: linear-gradient(to right, #3b82f6, #2563eb);
+	color: white;
+	min-width: 150px;
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind .watch-demo-btn-mailmind {
+	background-color: #303958;
+	color: white;
+	min-width: 150px;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.demo-image-placeholder-mailmind {
+	background-color: #1a202c;
+	border-radius: 12px;
+	height: 190px;
+	margin-bottom: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* background-image: url('./logo.png'); Commented out as logo.png is not available */
+	/* background-size: contain; */
+	/* background-repeat: no-repeat; */
+	/* background-position: center; */
+	border: 1px solid #2d3748;
+	/* Add some placeholder text or style if you want */
+	content: 'Demo Image Area'; /* Example placeholder */
+	color: #4a5568; /* Placeholder text color */
+	font-style: italic;
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind .section-title-mailmind {
+	font-size: 1.25em;
+	font-weight: bold;
+	margin-top: 30px;
+	margin-bottom: 20px;
+	text-align: left;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.section-title-mailmind
+	.emoji {
+	margin-right: 8px;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.how-it-works-steps-mailmind {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 30px;
+	text-align: center;
+	gap: 10px;
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind .how-it-works-step-mailmind {
+	flex: 1;
+	padding: 10px 5px;
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind .step-number-mailmind {
+	background-color: #2563eb;
+	color: white;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.summary-sidebar-mailmind .welcome-screen-mailmind .step-text-mailmind {
+	font-size: 0.9em;
+	color: #e2e8f0;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.features-list-mailmind
+	button {
+	display: flex;
+	align-items: center;
+	background-color: #1a2233;
+	color: white;
+	padding: 15px;
+	border-radius: 8px;
+	border: 1px solid #2d3748;
+	width: 100%;
+	text-align: left;
+	margin-bottom: 10px;
+	font-size: 0.95em;
+	cursor: pointer;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.features-list-mailmind
+	.feature-icon-mailmind {
+	font-size: 1.4em;
+	margin-right: 15px;
+	width: 28px;
+	text-align: center;
+	color: #60a5fa;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.features-list-mailmind
+	.feature-icon-mailmind.chat-icon {
+	color: #facc15;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.features-list-mailmind
+	.feature-icon-mailmind.copy-icon {
+	color: #a78bfa;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.features-list-mailmind
+	.feature-icon-mailmind.check-icon {
+	color: #fb7185;
+}
+
+.summary-sidebar-mailmind
+	.welcome-screen-mailmind
+	.feature-text-mailmind
+	.coming-soon-mailmind {
+	font-size: 0.8em;
+	color: #94a3b8;
+	margin-left: 5px;
+}
+
+.summary-sidebar-mailmind .settings-section-mailmind {
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top: 1px solid #2d3748;
+	text-align: left;
+}
+
+.summary-sidebar-mailmind .api-key-container-mailmind {
+	background-color: #1a2233;
+	padding: 15px;
+	border-radius: 8px;
+	margin-top: 10px;
+	border: 1px solid #2d3748;
+}
+
+.summary-sidebar-mailmind .api-key-container-mailmind label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 500;
+	font-size: 0.9em;
+}
+
+.summary-sidebar-mailmind .api-key-container-mailmind input[type='password'] {
+	width: calc(100% - 22px);
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #3e4c62;
+	border-radius: 4px;
+	background-color: #202124;
+	color: white;
+	font-size: 0.9em;
+}
+
+.summary-sidebar-mailmind .api-key-container-mailmind button {
+	padding: 8px 15px;
+	border: none;
+	border-radius: 4px;
+	background-color: #38a169;
+	color: white;
+	cursor: pointer;
+	font-weight: 500;
+	font-size: 0.9em;
+}
+
+.summary-sidebar-mailmind .privacy-toggle-container-mailmind {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 15px;
+	background-color: #1a2233;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	border: 1px solid #2d3748;
+}
+
+.summary-sidebar-mailmind .toggle-label-mailmind {
+	font-size: 0.95em;
+	margin-right: 10px;
+	font-weight: 500;
+}
+
+.summary-sidebar-mailmind .switch-mailmind {
+	position: relative;
+	display: inline-block;
+	width: 44px;
+	height: 24px;
+}
+
+.summary-sidebar-mailmind .switch-mailmind input {
+	display: none;
+}
+
+.summary-sidebar-mailmind .slider-mailmind {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #3e4c62;
+	transition: 0.4s;
+	border-radius: 24px;
+}
+
+.summary-sidebar-mailmind .slider-mailmind:before {
+	position: absolute;
+	content: '';
+	height: 18px;
+	width: 18px;
+	left: 3px;
+	bottom: 3px;
+	background-color: white;
+	transition: 0.4s;
+	border-radius: 50%;
+}
+
+.summary-sidebar-mailmind input:checked + .slider-mailmind {
+	background-color: #38a169;
+}
+
+.summary-sidebar-mailmind input:checked + .slider-mailmind:before {
+	transform: translateX(20px);
+}
+
+.summary-sidebar-mailmind .summery-box {
+	padding: 15px;
+	background-color: #202124;
+	flex-grow: 1;
+}
+
+.summary-sidebar-mailmind .mail-summery h3,
+.summary-sidebar-mailmind .action-items h3 {
+	margin-top: 0;
+	margin-bottom: 10px;
+	font-size: 1.1em;
+}
+
+.summary-sidebar-mailmind .mail-summery p,
+.summary-sidebar-mailmind .action-items ul {
+	font-size: 0.9em;
+	color: #cbd5e0;
+	line-height: 1.6;
+}
+
+.summary-sidebar-mailmind .action-items ul {
+	list-style-type: disc;
+	padding-left: 20px;
+}
+
+.summary-sidebar-mailmind .actionButtons button {
+	background-color: #2563eb;
+	color: white;
+	border: none;
+	padding: 8px 12px;
+	margin-right: 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 0.9em;
+}
+
+.summary-sidebar-mailmind .actionButtons button:hover {
+	background-color: #1d4ed8;
+}
+
+.summary-sidebar-mailmind .summary-header-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.summary-sidebar-mailmind .summary-timer {
+	font-size: 0.8em;
+	color: #a0aec0;
+}
+
+/* Main Container Styles */
+#mailmind-sidebar-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Remove duplicate .mailmind-sidebar class as it's redundant with summary-sidebar-mailmind */
+
+/* Header Styles */
+.nav-header-mailmind {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 20px;
+	background-color: #202124;
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+.nav-header-mailmind h1 {
+	font-size: 1.4em;
+	font-weight: bold;
+	margin: 0;
+}
+
+.nav-header-mailmind .back-button-mailmind,
+.nav-header-mailmind .close-button-mailmind {
+	color: #ffffff;
+	background: transparent;
+	border: none;
+	font-size: 1.5em;
+	cursor: pointer;
+}
+
+.nav-header-mailmind .close-button-mailmind {
+	font-size: 1.3em;
+}
+
+/* Consolidated Welcome Screen Styles */
+.welcome-screen-mailmind {
+	display: flex;
+	flex-direction: column;
+	padding: 0 20px 20px 20px;
+	box-sizing: border-box;
+	text-align: center;
+	flex-grow: 1;
+	background-color: #202124;
+}
+
+/* Title and Main Content Styles */
+.mailmind-title {
+	font-size: 20px;
+	font-weight: bold;
+	color: #f28b82;
+}
+
+.mailmind-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 5%;
+	margin-bottom: 20px;
+}
+
+.mailmind-close-button {
+	background: none;
+	border: none;
+	color: #9aa0a6;
+	font-size: 24px;
+	cursor: pointer;
+	padding: 0;
+	line-height: 1;
+}
+
+.mailmind-main-title {
+	font-size: 18px;
+	font-weight: 500;
+	color: #e8eaed;
+	margin-top: 0;
+	margin-bottom: 16px;
+	line-height: 1.3;
+}
+
+/* Features List Styles */
+.mailmind-features-list {
+	list-style: none;
+	padding-left: 0;
+	margin-top: 0;
+	margin-bottom: 24px;
+}
+
+.mailmind-features-list li {
+	font-size: 14px;
+	margin-bottom: 8px;
+	color: #bdc1c6;
+}
+
+.mailmind-checkmark {
+	color: #81c995;
+	margin-right: 8px;
+}
+
+/* How It Works Section */
+.mailmind-how-it-works-container {
+	background-color: #303134;
+	padding: 16px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+}
+
+.mailmind-section-title {
+	font-size: 18px;
+	font-weight: 500;
+	color: #e8eaed;
+	margin-top: 12px;
+	margin-bottom: 12px;
+	padding-top: 16px;
+}
+
+.mailmind-how-it-works-steps {
+	display: flex;
+	justify-content: space-around;
+	align-items: flex-start;
+	margin-bottom: 24px;
+	gap: 10px;
+}
+
+.mailmind-how-it-works-step {
+	text-align: center;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.mailmind-step-number {
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	background-color: #3c4043;
+	color: #e8eaed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: 8px;
+}
+
+.mailmind-step-text {
+	font-size: 13px;
+	color: #bdc1c6;
+	line-height: 1.4;
+	margin: 0;
+}
+
+/* Settings Section */
+.mailmind-settings-section {
+	margin-top: auto;
+	padding-top: 16px;
+	border-top: 1px solid #3c4043;
+}
+
+/* Privacy Toggle */
+.mailmind-privacy-toggle-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #303134;
+	padding: 12px 16px;
+	border-radius: 8px 8px 0 0;
+	margin-bottom: 0;
+}
+
+.mailmind-toggle-label {
+	font-size: 14px;
+	font-weight: 500;
+	color: #e8eaed;
+	margin-right: 0;
+}
+
+.mailmind-privacy-description {
+	font-size: 12px;
+	color: #9aa0a6;
+	line-height: 1.4;
+	padding: 8px 16px 16px 16px;
+	background-color: #303134;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	margin-top: -1px;
+	position: relative;
+	z-index: 0;
+}
+
+/* Toggle Switch */
+.mailmind-switch {
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 20px;
+	float: right;
+}
+
+.mailmind-switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.mailmind-slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #5f6368;
+	transition: 0.4s;
+	border-radius: 20px;
+}
+
+.mailmind-slider:before {
+	position: absolute;
+	content: '';
+	height: 16px;
+	width: 16px;
+	left: 2px;
+	bottom: 2px;
+	background-color: white;
+	transition: 0.4s;
+	border-radius: 50%;
+}
+
+input:checked + .mailmind-slider {
+	background-color: #f28b82;
+}
+
+input:focus + .mailmind-slider {
+	box-shadow: 0 0 1px #f28b82;
+}
+
+input:checked + .mailmind-slider:before {
+	transform: translateX(20px);
+}
+
+/* API Key Container */
+.mailmind-api-key-container {
+	padding: 16px;
+	background-color: #303134;
+	border-radius: 8px;
+	margin-top: 10px;
+}
+
+.mailmind-api-key-container label {
+	display: block;
+	margin-bottom: 6px;
+	font-size: 13px;
+	color: #bdc1c6;
+}
+
+.mailmind-api-key-container input[type='password'] {
+	width: calc(100% - 20px);
+	padding: 8px 10px;
+	margin-bottom: 10px;
+	border: 1px solid #5f6368;
+	border-radius: 4px;
+	background-color: #202124;
+	color: #e8eaed;
+	font-size: 13px;
+}
+
+/* Button Styles */
+.mailmind-button {
+	background-color: #8ab4f8;
+	color: #202124;
+	border: none;
+	padding: 8px 12px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: 500;
+	transition: background-color 0.2s;
+}
+
+.mailmind-button:hover {
+	background-color: #9ac0f9;
+}
+
+/* Footer */
+.mailmind-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px 16px;
+	border-top: 1px solid #3c4043;
+	background-color: #202124;
+	margin-top: auto;
+}
+
+.mailmind-footer-button {
+	background: none;
+	border: none;
+	color: #9aa0a6;
+	font-size: 13px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.mailmind-footer-button:hover {
+	color: #e8eaed;
+}
+
+.mailmind-footer-icon {
+	font-size: 15px;
+}
+
+/* Summary View Styles */
+.summary-view-mailmind {
+	padding: 16px;
+}
+
+.summary-header-mailmind {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.summary-title-mailmind {
+	font-size: 16px;
+	font-weight: bold;
+	color: #f28b82;
+}
+
+.close-summary-button-mailmind {
+	background: none;
+	border: none;
+	color: #9aa0a6;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.summary-content-mailmind {
+	background-color: #2a2b2e;
+	padding: 12px;
+	border-radius: 6px;
+	font-size: 14px;
+	line-height: 1.6;
+	margin-bottom: 10px;
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+.summary-actions-mailmind {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	margin-top: 10px;
+}
+
+.summary-action-button-mailmind {
+	flex-grow: 1;
+	background-color: #3c4043;
+	color: #e8eaed;
+	border: 1px solid #5f6368;
+	padding: 8px 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 13px;
+	text-align: center;
+	transition: background-color 0.2s;
+}
+
+.summary-action-button-mailmind:hover {
+	background-color: #4a4d50;
+}
+
+.summary-timer-mailmind {
+	font-size: 11px;
+	color: #9aa0a6;
+	margin-top: 8px;
+	text-align: right;
+}
+
+/* Fallback for logo if needed, or general brand element styling */
+.mailmind-logo-placeholder {
+	text-align: center;
+	padding: 20px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #f28b82; /* MailMind orange/coral */
+	/* background-image: url('./logo.png'); Remove if no logo */
+	/* background-size: contain; */
+	/* background-repeat: no-repeat; */
+	/* background-position: center; */
+	/* min-height: 80px; */ /* Adjust if you have a logo */
+	margin-bottom: 10px;
+}
+
+/* Ensure the toggle switch is correctly aligned within its new container */
+.mailmind-privacy-toggle-container .mailmind-toggle-label {
+	flex-grow: 1; /* Allows label to take available space */
+}
+.mailmind-privacy-toggle-container {
+	display: flex; /* Use flexbox for alignment */
+	align-items: center; /* Vertically align items */
+	justify-content: space-between; /* Space between label and switch */
+	background-color: #303134; /* Slightly different background for this block */
+	padding: 12px 16px; /* Adjusted padding */
+	border-radius: 8px 8px 0 0;
+	margin-bottom: 0; /* Remove bottom margin as description is separate now */
+}
+
+.mailmind-toggle-label {
+	/* font-size: 14px; */ /* Already defined */
+	/* font-weight: 500; */ /* Already defined */
+	/* color: #e8eaed; */ /* Already defined */
+	margin-right: 0; /* Remove right margin, space-between will handle it */
+	/* display: block; */ /* Not needed with flex */
+	/* margin-bottom: 8px; */ /* Not needed with flex align-items */
+}
+
+/* Adjust privacy description positioning as it's now outside the toggle container */
+.mailmind-privacy-description {
+	font-size: 12px;
+	color: #9aa0a6;
+	line-height: 1.4;
+	padding: 8px 16px 16px 16px; /* Top, H, Bottom, H */
+	background-color: #303134; /* Match the toggle container background */
+	border-bottom-left-radius: 8px; /* Round bottom corners with the block */
+	border-bottom-right-radius: 8px;
+	margin-top: -1px; /* Overlap slightly to merge with the toggle container visually */
+	position: relative; /* For z-index if needed, though usually not with margin-top:-1px */
+	z-index: 0; /* Ensure it's behind elements like absolute positioned sliders if they overflow */
+}

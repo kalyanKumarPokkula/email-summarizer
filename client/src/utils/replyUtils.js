@@ -1,5 +1,4 @@
 import { getFullEmailDetails } from './emailUtils.js';
-import { getPrivacyMode, getOpenAIApiKey } from '../components/sidebar.js';
 
 export async function handleReply() {
 	try {
@@ -31,20 +30,25 @@ export async function handleReply() {
 				composeBox.innerHTML = 'Generating reply...<br><br>';
 
 				// Prepare request body
+				const currentPrivacyMode =
+					localStorage.getItem('privacyMode') === 'true';
 				const requestBody = {
 					email_content: emailContent,
-					privacy_mode: getPrivacyMode(),
+					privacy_mode: currentPrivacyMode,
 				};
 
 				// If privacy mode is off, get and add the API key
 				if (!requestBody.privacy_mode) {
-					const apiKey = getOpenAIApiKey();
+					const apiKey = localStorage.getItem('openai_api_key');
 					if (apiKey) {
 						requestBody.openai_api_key = apiKey;
 					} else {
 						// Handle missing API key when not in privacy mode
-						console.error('OpenAI API Key is missing and Privacy Mode is OFF. Reply generation aborted.');
-						composeBox.innerHTML = 'Error: OpenAI API Key is missing. Please set it in the sidebar.<br><br>';
+						console.error(
+							'OpenAI API Key is missing and Privacy Mode is OFF. Reply generation aborted.'
+						);
+						composeBox.innerHTML =
+							'Error: OpenAI API Key is missing. Please set it in the sidebar.<br><br>';
 						return; // Stop execution
 					}
 				}
@@ -135,7 +139,7 @@ function waitForElement(selector) {
 		// Add timeout to prevent infinite waiting
 		setTimeout(() => {
 			observer.disconnect();
-			resolve();
+			resolve(); // Resolve anyway to prevent hanging indefinitely
 		}, 5000);
 	});
 }

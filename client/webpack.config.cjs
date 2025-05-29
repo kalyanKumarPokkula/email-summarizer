@@ -12,12 +12,15 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
 				use: {
 					loader: 'babel-loader',
 					options: {
-						presets: [['@babel/preset-env', { targets: 'defaults' }]],
+						presets: [
+							['@babel/preset-env', { targets: 'defaults' }],
+							'@babel/preset-react',
+						],
 					},
 				},
 			},
@@ -30,12 +33,14 @@ module.exports = {
 	plugins: [
 		new CopyPlugin({
 			patterns: [
-				{ from: 'public/manifest.json', to: 'manifest.json' },
-				{ from: 'src/styles.css', to: 'styles.css' },
+				{
+					from: path.resolve(__dirname, 'public/manifest.json'),
+					to: path.resolve(__dirname, 'dist/manifest.json'),
+				},
 			],
 		}),
 	],
 	resolve: {
-		extensions: ['.js'],
+		extensions: ['.js', '.jsx'],
 	},
 };

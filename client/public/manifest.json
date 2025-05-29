@@ -8,8 +8,7 @@
 	"content_scripts": [
 		{
 			"matches": ["https://mail.google.com/*"],
-			"js": ["main.js"],
-			"css": ["styles.css"]
+			"js": ["main.js"]
 		}
 	]
 }

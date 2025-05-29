@@ -6,31 +6,7 @@
 	--background-color: #eeeeee;
 }
 
-.summary-sidebar {
-	width: 300px;
-	height: auto;
-	background-color: var(--background-color);
-	/* border: 1px solid #e0e0e0; */
-	border-radius: 8px;
-	padding: 15px;
-	box-sizing: border-box;
-	overflow-y: auto; /* In case summary is long */
-	margin-left: 15px; /* Add some left margin to separate from Gmail content */
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-	position: relative; /*  Enable positioning for pseudo-element */
-	color: var(
-		--font-color-secondary
-	); /* Ensure text is visible on the dark background, adjust if needed */
-}
-
-.summary-sidebar h1 {
-	color: var(--primary-color);
-	font-size: 22px;
-}
-
-.summary-sidebar h2 {
-	color: var(--font-color-primary);
-}
+/* Removed duplicate .summary-sidebar class */
 
 .intoCopy ul {
 	list-style: none; /* Remove default bullets */
@@ -76,7 +52,7 @@
 .email-content-box {
 	border: 1px solid #e0e0e0; /* Light gray border */
 	border-radius: 8px; /* Rounded corners */
-	padding: 10px; /* Padding inside the box */
+	padding: 10px; /* Padding inside the box */	
 	background-color: #f9f9f9; /* Light background color */
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 	margin-top: 20px; /* Space above the content box */
@@ -120,7 +96,7 @@
 /* Styles for action buttons container to add spacing */
 .actionButtons {
 	display: flex; /* Use flexbox to easily control spacing */
-	gap: 10px; /* Add a gap of 10px between the flex items (buttons) */
+	gap: 10px; /* Add a gap of 10px between the flex items (buttons) */	
 	justify-content: flex-start; /* Align buttons to the start if container is wider */
 	/* or justify-content: space-between; if you want buttons to spread out */
 }
