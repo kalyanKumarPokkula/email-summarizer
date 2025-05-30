@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './SummaryView.css'; // Import the new CSS file
 import { copyToClipboard } from '../utils/emailUtils.js';
 import { doubleCheckSummary } from '../utils/doubleCheckFun.js';
@@ -11,20 +11,39 @@ const SummaryView = ({
 	onBack,
 	onClose,
 	onSettingsClick,
+	onActionItemToggle,
+	selectedActionItemIds,
+	onToggleActionItemSelection,
 }) => {
-	// Mock action items if not provided, for UI display
-	const displayActionItems =
-		actionItems && actionItems.length > 0
-			? actionItems
-			: [
-					{ id: '1', text: 'Placeholder Action 1', completed: false },
-					{ id: '2', text: 'Placeholder Action 2', completed: false },
-			  ];
+	// Process actionItems to ensure they are in the correct format (array of objects)
+	const processedActionItems = useMemo(() => {
+		if (!actionItems || actionItems.length === 0) {
+			return []; // Return empty array if no action items or if it's undefined/null
+		}
+		return actionItems.map((item, index) => {
+			if (typeof item === 'string') {
+				return { id: String(index), text: item, completed: false };
+			}
+			// If item is already an object, ensure it has the necessary properties
+			// This provides a fallback if the structure is partially correct but misses 'id' or 'completed'
+			return {
+				id: item.id !== undefined ? String(item.id) : String(index),
+				text: item.text !== undefined ? String(item.text) : String(item),
+				completed:
+					item.completed !== undefined ? Boolean(item.completed) : false,
+				isLoading:
+					item.isLoading !== undefined ? Boolean(item.isLoading) : false,
+			};
+		});
+	}, [actionItems]); // Recalculate only when actionItems prop changes
 
 	// Handler for checkbox change (does nothing yet)
 	const handleActionItemToggle = (itemId) => {
 		console.log('Toggled action item:', itemId);
 		// Here you would typically update the state of actionItems
+		if (onActionItemToggle) {
+			onActionItemToggle(itemId);
+		}
 	};
 
 	return (
@@ -89,18 +108,43 @@ const SummaryView = ({
 						<h3>Action Items</h3>
 					</div>
 					<ul className="action-item-list-mailmind">
-						{displayActionItems.map((item) => (
-							<li key={item.id} className="action-item-mailmind">
-								<input
-									type="checkbox"
-									id={`action-${item.id}`}
-									checked={item.completed}
-									onChange={() => handleActionItemToggle(item.id)}
-									className="action-item-checkbox-mailmind"
-								/>
-								<label htmlFor={`action-${item.id}`}>{item.text}</label>
+						{processedActionItems && processedActionItems.length > 0 ? (
+							processedActionItems.map((item) => {
+								// Check for the loading state item
+								if (item.isLoading) {
+									return (
+										<li
+											key={item.id || 'loading'}
+											className="action-item-mailmind action-item-loading-mailmind"
+										>
+											{item.text}
+										</li>
+									);
+								}
+								// Regular item rendering
+								return (
+									<li
+										key={item.id}
+										className={`action-item-mailmind ${
+											selectedActionItemIds.includes(item.id)
+												? 'selected-action-item-mailmind'
+												: ''
+										}`}
+										onClick={() =>
+											onToggleActionItemSelection &&
+											onToggleActionItemSelection(item.id)
+										}
+									>
+										{/* Remove checkbox and label, just display text */}
+										<span>{item.text}</span>
+									</li>
+								);
+							})
+						) : (
+							<li className="action-item-mailmind no-action-items-mailmind">
+								No action items found.
 							</li>
-						))}
+						)}
 					</ul>
 				</div>
 

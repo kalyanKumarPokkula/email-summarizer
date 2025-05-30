@@ -73,7 +73,14 @@ async function handleEmailSelection() {
 		);
 		window.showSummaryViewInReact({
 			summary: 'Generating summary, please wait...',
-			actionItems: [], // Start with empty or placeholder action items
+			actionItems: [
+				{
+					id: 'loading-ai',
+					text: 'Generating action items...',
+					completed: false,
+					isLoading: true,
+				},
+			], // Updated action items for loading state
 			timeTaken: 0,
 			// We can add an isLoading flag if App.jsx or SummaryView.jsx needs to behave differently
 			// For now, the summary text itself indicates loading.

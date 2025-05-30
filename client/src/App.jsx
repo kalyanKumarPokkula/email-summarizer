@@ -20,6 +20,23 @@ const App = ({ onSummarize }) => {
 	const [summaryText, setSummaryText] = useState('');
 	const [actionItems, setActionItems] = useState([]);
 	const [summaryTime, setSummaryTime] = useState(0.0);
+	const [selectedActionItemIds, setSelectedActionItemIds] = useState([]);
+
+	const handleActionItemToggle = useCallback((itemId) => {
+		setActionItems((prevItems) =>
+			prevItems.map((item) =>
+				item.id === itemId ? { ...item, completed: !item.completed } : item
+			)
+		);
+	}, []);
+
+	const handleToggleActionItemSelection = useCallback((itemId) => {
+		setSelectedActionItemIds((prevSelectedIds) =>
+			prevSelectedIds.includes(itemId)
+				? prevSelectedIds.filter((id) => id !== itemId)
+				: [...prevSelectedIds, itemId]
+		);
+	}, []);
 
 	const handleSetOpenaiApiKey = useCallback((key) => {
 		if (key) {
@@ -90,6 +107,9 @@ const App = ({ onSummarize }) => {
 				timeTaken={summaryTime}
 				onBack={showWelcomeView}
 				onClose={handleCloseSidebar}
+				onActionItemToggle={handleActionItemToggle}
+				selectedActionItemIds={selectedActionItemIds}
+				onToggleActionItemSelection={handleToggleActionItemSelection}
 			/>
 		);
 	}

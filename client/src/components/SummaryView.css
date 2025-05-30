@@ -172,8 +172,8 @@
 }
 
 .action-item-list-mailmind {
-	list-style: none;
-	padding: 0;
+	list-style: disc;
+	padding-left: 20px;
 	margin: 0;
 	display: flex;
 	flex-direction: column;
@@ -181,29 +181,30 @@
 }
 
 .action-item-mailmind {
-	display: flex;
-	align-items: center;
-	gap: 10px;
+	display: list-item;
 	font-size: 0.9em;
+	padding: 5px 0;
+	cursor: pointer;
+	border-radius: 4px;
 }
 
-.action-item-checkbox-mailmind {
-	width: 18px;
-	height: 18px;
-	accent-color: #f28b82; /* Orange checkbox */
-	flex-shrink: 0; /* Prevent checkbox from shrinking */
+.action-item-mailmind:hover {
+	background-color: #3c4043;
 }
-.action-item-mailmind label {
-	/* Kept for potential future use, though label is commented out in JSX */
-	color: #bdc1c6;
-	line-height: 1.4;
+
+.action-item-mailmind.selected-action-item-mailmind {
+	background-color: #f28b82;
+	color: #202124;
+	font-weight: 500;
+	padding-left: 8px;
+	margin-left: -8px;
 }
 
 /* Primary Action Buttons */
 .primary-actions-mailmind {
 	display: flex;
 	gap: 10px;
-	margin-top: 10px; /* Add some space above these buttons */
+	margin-top: 10px;
 }
 
 .action-button-mailmind {
@@ -221,34 +222,34 @@
 }
 
 .copy-button-mailmind {
-	background-color: #f28b82; /* Orange button */
-	color: #202124; /* Dark text on orange button */
+	background-color: #f28b82;
+	color: #202124;
 }
 .copy-button-mailmind .icon-mailmind {
 	/* Icons inside might need specific color if not inheriting well */
 }
 
 .double-check-button-mailmind {
-	background-color: #e8eaed; /* Light background */
-	color: #202124; /* Dark text */
+	background-color: #e8eaed;
+	color: #202124;
 }
 .double-check-button-mailmind .icon-mailmind {
-	color: #f28b82; /* Orange icon */
+	color: #f28b82;
 }
 
 /* Secondary Action Buttons */
 .secondary-actions-mailmind {
 	display: flex;
 	justify-content: space-between;
-	gap: 8px; /* Smaller gap for these buttons */
+	gap: 8px;
 	margin-top: 15px;
 }
 
 .secondary-action-button-mailmind {
 	flex-grow: 1;
-	background-color: #3c4043; /* Medium gray */
+	background-color: #3c4043;
 	color: #e8eaed;
-	border: 1px solid #5f6368; /* Subtle border */
+	border: 1px solid #5f6368;
 	padding: 8px 10px;
 	border-radius: 4px;
 	font-size: 0.85em;
@@ -261,7 +262,7 @@
 	gap: 6px;
 }
 .secondary-action-button-mailmind .icon-mailmind {
-	font-size: 1.1em; /* Slightly larger icons for this row */
+	font-size: 1.1em;
 }
 .secondary-action-button-mailmind:hover {
 	background-color: #4a4d50;
@@ -275,8 +276,8 @@
 	gap: 10px;
 	margin-top: 20px;
 	padding: 10px 0;
-	border-top: 1px solid #3c4043; /* Separator line */
-	border-bottom: 1px solid #3c4043; /* Separator line */
+	border-top: 1px solid #3c4043;
+	border-bottom: 1px solid #3c4043;
 }
 
 .feedback-section-mailmind p {
@@ -289,7 +290,7 @@
 	background: none;
 	border: none;
 	color: #9aa0a6;
-	font-size: 1.5em; /* Larger icons for feedback */
+	font-size: 1.5em;
 	cursor: pointer;
 	padding: 5px;
 }
@@ -303,14 +304,14 @@
 	justify-content: space-around;
 	align-items: center;
 	padding: 10px 0;
-	background-color: #202124; /* Match main background */
-	margin-top: auto; /* Pushes footer to bottom if content is short */
+	background-color: #202124;
+	margin-top: auto;
 }
 
 .footer-button-mailmind {
 	background: none;
 	border: none;
-	color: #9aa0a6; /* Light gray for footer text/icons */
+	color: #9aa0a6;
 	font-size: 0.85em;
 	font-weight: 500;
 	cursor: pointer;
@@ -321,7 +322,7 @@
 	padding: 5px 10px;
 }
 .footer-button-mailmind .icon-mailmind {
-	font-size: 1.4em; /* Larger icons in footer */
+	font-size: 1.4em;
 }
 .footer-button-mailmind:hover {
 	color: #e8eaed;
