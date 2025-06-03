@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import './SummaryView.css'; // Import the new CSS file
 import { copyToClipboard } from '../utils/emailUtils.js';
 import { doubleCheckSummary } from '../utils/doubleCheckFun.js';
@@ -15,6 +15,12 @@ const SummaryView = ({
 	selectedActionItemIds,
 	onToggleActionItemSelection,
 }) => {
+	const [isCustomReplyModalOpen, setIsCustomReplyModalOpen] = useState(false);
+
+	const toggleCustomReplyModal = () => {
+		setIsCustomReplyModalOpen(!isCustomReplyModalOpen);
+	};
+
 	// Process actionItems to ensure they are in the correct format (array of objects)
 	const processedActionItems = useMemo(() => {
 		if (!actionItems || actionItems.length === 0) {
@@ -72,27 +78,29 @@ const SummaryView = ({
 			{/* Main Content Area */}
 			<div className="summary-content-area-mailmind">
 				{/* Summary Section */}
-				<div className="summary-section-mailmind">
-					<div className="summary-header-controls-mailmind">
-						<div className="summary-title-icon-mailmind">
-							<span className="icon-mailmind">📄</span> {/* Summary Icon */}
-							<h3>Summary ({timeTaken ? timeTaken.toFixed(1) : '0.0'}s)</h3>
-						</div>
-						<div className="summary-actions-mailmind-top">
-							<button
-								className="detailed-button-mailmind"
-								onClick={() => console.log('Detailed clicked')}
-							>
-								Detailed
-							</button>
-							<button
-								className="refresh-summary-button-mailmind"
-								onClick={() => console.log('Refresh Summary clicked')}
-							>
-								🔄
-							</button>
-						</div>
+				<div className="summary-header-controls-mailmind">
+					<div className="summary-title-icon-mailmind">
+						<span className="icon-mailmind">📄</span> {/* Summary Icon */}
+						<h3 style={{ fontSize: '1rem', margin: '0px' }}>
+							Summary ({timeTaken ? timeTaken.toFixed(1) : '0.0'}s)
+						</h3>
 					</div>
+					<div className="summary-actions-mailmind-top">
+						<button
+							className="detailed-button-mailmind"
+							onClick={() => console.log('Detailed clicked')}
+						>
+							Detailed
+						</button>
+						<button
+							className="refresh-summary-button-mailmind"
+							onClick={() => console.log('Refresh Summary clicked')}
+						>
+							🔄
+						</button>
+					</div>
+				</div>
+				<div className="summary-section-mailmind">
 					<div className="summary-text-mailmind">
 						<p>
 							{summary ||
@@ -102,11 +110,11 @@ const SummaryView = ({
 				</div>
 
 				{/* Action Items Section */}
+				<div className="action-items-header-mailmind">
+					<span className="icon-mailmind">☰</span> {/* Action Items Icon */}
+					<h3 style={{ fontSize: '1rem', margin: '0px' }}>Action Items</h3>
+				</div>
 				<div className="action-items-section-mailmind">
-					<div className="action-items-header-mailmind">
-						<span className="icon-mailmind">☰</span> {/* Action Items Icon */}
-						<h3>Action Items</h3>
-					</div>
 					<ul className="action-item-list-mailmind">
 						{processedActionItems && processedActionItems.length > 0 ? (
 							processedActionItems.map((item) => {
@@ -174,16 +182,16 @@ const SummaryView = ({
 					</button>
 					<button
 						className="secondary-action-button-mailmind"
-						onClick={() => console.log('Save to Notion clicked')}
+						onClick={toggleCustomReplyModal}
 					>
-						<span className="icon-mailmind">N</span> Save to Notion
+						<span className="icon-mailmind">↩️</span> Custome Reply
 					</button>
-					<button
+					{/* <button
 						className="secondary-action-button-mailmind"
 						onClick={() => console.log('Add to tasks clicked')}
 					>
 						<span className="icon-mailmind">✅</span> Add to tasks
-					</button>
+					</button> */}
 				</div>
 
 				{/* Feedback Section */}

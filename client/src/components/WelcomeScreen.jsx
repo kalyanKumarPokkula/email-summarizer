@@ -30,18 +30,14 @@ const WelcomeScreen = ({
 			</h2>
 
 			<ul className="mailmind-features-list">
-				<li>
-					<span className="mailmind-checkmark">✔</span> Summarize emails
-				</li>
-				<li>
-					<span className="mailmind-checkmark">✔</span> Reply smart
-				</li>
-				<li>
-					<span className="mailmind-checkmark">✔</span> Extract action items
-				</li>
+				<li>✅ Summarize emails</li>
+				<li>✅ Reply smart</li>
+				<li>✅ Extract action items</li>
 			</ul>
 			<div className="mailmind-how-it-works-container">
-				<h3 className="mailmind-section-title">How It Works</h3>
+				<h3 className="mailmind-section-title" style={{ marginTop: '0px' }}>
+					How It Works
+				</h3>
 				<div className="mailmind-how-it-works-steps">
 					<div className="mailmind-how-it-works-step">
 						<div className="mailmind-step-number">1</div>
@@ -56,6 +52,15 @@ const WelcomeScreen = ({
 						<p className="mailmind-step-text">Copy or reply instantly</p>
 					</div>
 				</div>
+			</div>
+
+			<div>
+				<h2 className="feature-title">Features that make MailMind unique</h2>
+				<p className="feature-text">AI-Powered Summaries</p>
+				<p className="feature-text">Actionable Task Extraction</p>
+				<p className="feature-text">Smart Reply</p>
+				<p className="feature-text">Copy & Share in one click</p>
+				<p className="feature-text">Double-check summaries</p>
 			</div>
 
 			<div className="mailmind-settings-section">

@@ -37,7 +37,7 @@ class EmailState(BaseModel):
 def email_summarizer(email_text: str, privacy_mode: bool, openai_api_key: str = None):
 
     if privacy_mode:
-        llm = ChatOllama(model="phi3:latest")
+        llm = ChatOllama(model="phi4:latest")
     else:
         if not openai_api_key:
             openai_api_key = os.environ.get("OPENAI_API_KEY")
@@ -93,7 +93,7 @@ def email_summarizer(email_text: str, privacy_mode: bool, openai_api_key: str = 
 def email_reply(mail_content: str, privacy_mode: bool, openai_api_key: str = None):
 
     if privacy_mode:
-        llm = ChatOllama(model="phi3:latest")
+        llm = ChatOllama(model="phi4:latest")
     else:
         if not openai_api_key:
             openai_api_key = os.environ.get("OPENAI_API_KEY")
