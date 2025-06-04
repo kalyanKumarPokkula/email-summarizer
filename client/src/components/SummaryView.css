@@ -61,6 +61,7 @@
 	background-color: #202124; /* Dark background */
 	color: #e8eaed; /* Light text color */
 	box-sizing: border-box; /* Ensure padding/border included in width/height */
+	position: relative; /* Added for modal positioning context */
 }
 
 .nav-header-mailmind {
@@ -350,4 +351,89 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+}
+
+/* Custom Reply Modal Styles */
+.custom-reply-modal-mailmind {
+	position: absolute; /* Changed from fixed to absolute */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	z-index: 1000; /* Sit on top */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.custom-reply-modal-content-mailmind {
+	background-color: #fefefe;
+	margin: auto; /* 15% from the top and centered */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%; /* Could be more or less, depending on screen size */
+	max-width: 500px; /* Maximum width */
+	border-radius: 8px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.custom-reply-modal-header-mailmind {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+	margin-bottom: 15px;
+}
+
+.custom-reply-modal-header-mailmind h2 {
+	margin: 0;
+	font-size: 1.25rem;
+}
+
+.close-modal-button-mailmind {
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	cursor: pointer;
+	color: #aaa;
+}
+
+.close-modal-button-mailmind:hover,
+.close-modal-button-mailmind:focus {
+	color: black;
+	text-decoration: none;
+}
+
+.custom-reply-modal-body-mailmind {
+	display: flex;
+	flex-direction: column;
+}
+
+.custom-reply-input-mailmind {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 15px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box; /* Important to include padding and border in the element's total width and height */
+	resize: vertical; /* Allow vertical resizing, disable horizontal */
+	font-family: inherit; /* Inherit font from parent */
+}
+
+.submit-custom-reply-button-mailmind {
+	background-color: #007bff; /* Example primary color */
+	color: white;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 1rem;
+	align-self: flex-end; /* Align button to the right for better UX */
+}
+
+.submit-custom-reply-button-mailmind:hover {
+	background-color: #0056b3;
 }

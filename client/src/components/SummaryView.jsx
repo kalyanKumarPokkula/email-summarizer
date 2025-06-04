@@ -233,6 +233,40 @@ const SummaryView = ({
 					<span className="icon-mailmind">🕒</span> History
 				</button>
 			</footer>
+
+			{/* Custom Reply Modal */}
+			{isCustomReplyModalOpen && (
+				<div className="custom-reply-modal-mailmind">
+					<div className="custom-reply-modal-content-mailmind">
+						<div className="custom-reply-modal-header-mailmind">
+							<h2>Custom Reply</h2>
+							<button
+								onClick={toggleCustomReplyModal}
+								className="close-modal-button-mailmind"
+							>
+								✕
+							</button>
+						</div>
+						<div className="custom-reply-modal-body-mailmind">
+							<textarea
+								placeholder="Enter your custom reply instructions here..."
+								className="custom-reply-input-mailmind"
+								rows="4"
+							/>
+							<button
+								className="submit-custom-reply-button-mailmind"
+								onClick={() => {
+									// Handle submission logic here
+									console.log('Custom reply submitted');
+									toggleCustomReplyModal(); // Close modal on submit for now
+								}}
+							>
+								Send Reply
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };

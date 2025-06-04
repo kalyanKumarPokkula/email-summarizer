@@ -73,7 +73,3 @@ def generate_reply(request_data: ReplyRequest): # Use the Pydantic model
         print(f"Error during reply generation: {e}")
         raise HTTPException(status_code=500, detail="An unexpected error occurred during reply generation.")
 
-# Example of how to run, if this is the main script:
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, host="0.0.0.0", port=8000)
