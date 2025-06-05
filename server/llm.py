@@ -113,3 +113,31 @@ def email_reply(mail_content: str, privacy_mode: bool, openai_api_key: str = Non
     print(response.content)
 
     return response.content
+
+
+# Add this function after the email_reply function
+
+def custom_email_reply(mail_content: str, custom_instructions: str, privacy_mode: bool, openai_api_key: str = None):
+
+    if privacy_mode:
+        llm = ChatOllama(model="phi4:latest")
+    else:
+        if not openai_api_key:
+            openai_api_key = os.environ.get("OPENAI_API_KEY")
+            if not openai_api_key:
+                 raise ValueError("OpenAI API key is required for custom replies when privacy mode is off and not provided.")
+        llm = ChatOpenAI(model="gpt-4o-mini", api_key=openai_api_key)
+    
+    reply_prompt = f"""Please generate an email reply only (not the subject) to the following email content.
+        saying: {custom_instructions}
+
+        Email Content:
+        {mail_content}
+
+        Generate Reply:
+"""
+    prompt = [HumanMessage(content=reply_prompt)]
+    response = llm.invoke(prompt)
+    print(response.content)
+
+    return response.content
