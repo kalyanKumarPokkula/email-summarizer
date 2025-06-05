@@ -19,9 +19,28 @@ const SummaryView = ({
 	const [isCustomReplyModalOpen, setIsCustomReplyModalOpen] = useState(false);
 	const [customInstructions, setCustomInstructions] = useState('');
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [isDetailedDropdownOpen, setIsDetailedDropdownOpen] = useState(false);
+	const [summaryStyle, setSummaryStyle] = useState('standard');
+	const [isRefreshing, setIsRefreshing] = useState(false); // New state for tracking refresh status
 
 	const toggleCustomReplyModal = () => {
 		setIsCustomReplyModalOpen(!isCustomReplyModalOpen);
+	};
+
+	const toggleDetailedDropdown = () => {
+		setIsDetailedDropdownOpen(!isDetailedDropdownOpen);
+	};
+
+	const handleSummaryStyleChange = (style) => {
+		setSummaryStyle(style);
+		setIsDetailedDropdownOpen(false);
+		
+		// Here you would typically regenerate the summary with the new style
+		// For now, we'll just log it
+		console.log(`Summary style changed to: ${style}`);
+		
+		// You can add logic here to regenerate the summary with the new style
+		// For example, call a modified version of doubleCheckSummary that includes the style
 	};
 
 	// Add this new function to handle custom reply submission
@@ -195,12 +214,31 @@ const SummaryView = ({
 		});
 	}, [actionItems]); // Recalculate only when actionItems prop changes
 
+	// Move the handleRefreshSummary function inside the component, before the return statement
+	// Around line 230, after handleActionItemToggle and before the return statement
+	
 	// Handler for checkbox change (does nothing yet)
 	const handleActionItemToggle = (itemId) => {
 		console.log('Toggled action item:', itemId);
 		// Here you would typically update the state of actionItems
 		if (onActionItemToggle) {
 			onActionItemToggle(itemId);
+		}
+	};
+	
+	// Add this function to handle the refresh action
+	const handleRefreshSummary = async () => {
+		try {
+			setIsRefreshing(true); // Set refreshing state to true
+			await doubleCheckSummary(); // Call the doubleCheckSummary function
+		} catch (error) {
+			console.error('Error refreshing summary:', error);
+		} finally {
+			// Set a timeout to reset the refreshing state after a short delay
+			// This ensures the user sees the loading state even if the operation is very quick
+			setTimeout(() => {
+				setIsRefreshing(false);
+			}, 500);
 		}
 	};
 
@@ -232,31 +270,50 @@ const SummaryView = ({
 				{/* Summary Section */}
 				<div className="summary-header-controls-mailmind">
 					<div className="summary-title-icon-mailmind">
-						<span className="icon-mailmind">📄</span> {/* Summary Icon */}
+						<span className="icon-mailmind">📄</span>
 						<h3 style={{ fontSize: '1rem', margin: '0px' }}>
 							Summary ({timeTaken ? timeTaken.toFixed(1) : '0.0'}s)
 						</h3>
 					</div>
 					<div className="summary-actions-mailmind-top">
-						<button
-							className="detailed-button-mailmind"
-							onClick={() => console.log('Detailed clicked')}
-						>
-							Detailed
-						</button>
+						<div className="detailed-dropdown-container">
+							<button
+								className="detailed-button-mailmind"
+								onClick={toggleDetailedDropdown}
+							>
+								{summaryStyle === 'standard' ? 'Detailed' : 
+								 summaryStyle === 'detailed' ? 'Detailed' :
+								 summaryStyle === 'compact' ? 'Compact' :
+								 summaryStyle === 'tothepoint' ? 'To The Point' : 'Detailed'}
+								<span className="dropdown-arrow">▼</span>
+							</button>
+							{isDetailedDropdownOpen && (
+								<div className="detailed-dropdown-menu">
+									<button onClick={() => handleSummaryStyleChange('detailed')}>Detailed</button>
+									<button onClick={() => handleSummaryStyleChange('compact')}>Compact</button>
+									<button onClick={() => handleSummaryStyleChange('tothepoint')}>To The Point</button>
+									<button onClick={() => handleSummaryStyleChange('standard')}>Standard</button>
+								</div>
+							)}
+						</div>
 						<button
 							className="refresh-summary-button-mailmind"
-							onClick={() => console.log('Refresh Summary clicked')}
+							onClick={handleRefreshSummary}
+							disabled={isRefreshing}
 						>
-							🔄
+							{isRefreshing ? '⏳' : '🔄'}
 						</button>
 					</div>
 				</div>
 				<div className="summary-section-mailmind">
 					<div className="summary-text-mailmind">
 						<p>
-							{summary ||
-								'Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante.'}
+							{isRefreshing ? (
+								'Refreshing summary and action items... Please wait.'
+							) : (
+								summary ||
+								'Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante.'
+							)}
 						</p>
 					</div>
 				</div>
@@ -268,7 +325,11 @@ const SummaryView = ({
 				</div>
 				<div className="action-items-section-mailmind">
 					<ul className="action-item-list-mailmind">
-						{processedActionItems && processedActionItems.length > 0 ? (
+						{isRefreshing ? (
+							<li className="action-item-mailmind action-item-loading-mailmind">
+								Refreshing action items...
+							</li>
+						) : processedActionItems && processedActionItems.length > 0 ? (
 							processedActionItems.map((item) => {
 								// Check for the loading state item
 								if (item.isLoading) {
@@ -315,12 +376,6 @@ const SummaryView = ({
 						onClick={() => copyToClipboard(summary)}
 					>
 						<span className="icon-mailmind">📋</span> Copy
-					</button>
-					<button
-						className="action-button-mailmind double-check-button-mailmind"
-						onClick={doubleCheckSummary}
-					>
-						<span className="icon-mailmind">🔁</span> Double Check
 					</button>
 				</div>
 
