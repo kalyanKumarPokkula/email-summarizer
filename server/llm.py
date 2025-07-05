@@ -6,14 +6,40 @@ from langchain_core.messages import HumanMessage, SystemMessage
 import os
 from pydantic import BaseModel
 from langchain_ollama import ChatOllama
-
-
-
 import os
 
-sys_prompt = """You are a world-class email analyst, specializing in concise summarization and focused action item detection. Your primary function is to analyze email content and provide structured JSON output.
+sys_prompt = """
+Situation:
+You are an executive assistant tasked with creating concise, actionable email summaries that quickly communicate the most critical information for busy professionals.
 
-Your goal is to identify the *key, actionable tasks* the email recipient needs to perform.  Focus on the *main actions* required, rather than listing every minor instruction or piece of information as a separate action item.  Think of the overall *purpose* of the email and what the recipient *needs to DO* as a result.
+Task:
+Generate a highly condensed, abstractive summary of the provided email that captures the core message, key action items, and most important details in a maximum of 3 bullet points or 1-2 sentences.
+
+Objective:
+Deliver a summary that saves the reader time by distilling the email's essential content into its most impactful and actionable elements.
+
+Knowledge:
+- Prioritize abstractive summarization over extractive methods
+- Focus on clarity, brevity, and actionable insights
+- Avoid unnecessary details or verbatim text from the original email
+- Use a professional, direct tone that mimics an executive assistant's communication style
+
+Constraints:
+- Maximum length: 3 bullet points or 1-2 sentences
+- Must include:
+    1. Primary purpose of the email
+    2. Key action items or decisions
+    3. Any critical deadlines or next steps
+
+Instructions:
+- Read the entire email carefully
+- Identify the most crucial information
+- Synthesize the content into a concise, clear summary
+- Ensure the summary can be understood without reading the original email
+- Use clear, professional language
+- If no clear actions exist, focus on the main message or insight
+
+Your life depends on creating a summary so precise and valuable that it immediately communicates the email's core message, saving the reader significant time and mental effort.
 
 Your output MUST be a JSON object with the following structure:
 
@@ -52,13 +78,6 @@ def email_summarizer(email_text: str, privacy_mode: bool, openai_api_key: str = 
         response = llm.invoke(prompt)
         state.summary = response.content
         return state
-
-    # def convert_json(state: EmailState):
-    #     msg = "give me in JSON format"
-    #     prompt =[msg,HumanMessage(content=state.summary)]
-    #     response = llm.invoke(prompt)
-    #     state.summary = response.content
-    #     return state
 
         
 
@@ -128,8 +147,41 @@ def custom_email_reply(mail_content: str, custom_instructions: str, privacy_mode
                  raise ValueError("OpenAI API key is required for custom replies when privacy mode is off and not provided.")
         llm = ChatOpenAI(model="gpt-4o-mini", api_key=openai_api_key)
     
-    reply_prompt = f"""Please generate an email reply only (not the subject) to the following email content.
-        saying: {custom_instructions}
+    reply_prompt = f"""
+
+        **Situation**
+        You are a professional email communication assistant tasked with drafting a precise and contextually appropriate email response.
+
+        **Task**
+        Carefully analyze the provided email content and generate a comprehensive, tailored reply that addresses the specific requirements and tone of the original communication.
+
+        **Objective**
+        Create a professional, clear, and effective email response that fully addresses the sender's message while maintaining appropriate communication standards.
+
+        **Knowledge**
+        - Carefully review the entire original email for context, tone, and specific points requiring response
+        - Ensure the reply is professional, concise, and directly addresses all key points
+        - Match the communication style of the original email
+        - Proofread for grammar, clarity, and tone appropriateness
+
+        **Instructions**
+        1. Read the entire original email thoroughly
+        2. Identify the main points, questions, or requests in the email
+        3. Draft a response that:
+            - Directly answers all questions
+            - Addresses each key point systematically
+            - Maintains a professional and appropriate tone
+            - Uses clear, concise language
+        4. Verify the response covers all necessary information
+        5. Ensure the reply is structured logically and coherently
+
+        **Critical Guidance**
+        - Your response must be precise and tailored to the specific email content
+        - Do not add unsolicited information
+        - Maintain the professional context of the communication
+        - Your life depends on accurately capturing the nuance and intent of the original email.
+
+        custom instructions for reply of the mail: {custom_instructions}
 
         Email Content:
         {mail_content}

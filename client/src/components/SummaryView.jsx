@@ -22,6 +22,7 @@ const SummaryView = ({
 	const [isDetailedDropdownOpen, setIsDetailedDropdownOpen] = useState(false);
 	const [summaryStyle, setSummaryStyle] = useState('standard');
 	const [isRefreshing, setIsRefreshing] = useState(false); // New state for tracking refresh status
+	const [copied, setCopied] = useState(false); // State for copy feedback
 
 	const toggleCustomReplyModal = () => {
 		setIsCustomReplyModalOpen(!isCustomReplyModalOpen);
@@ -34,11 +35,11 @@ const SummaryView = ({
 	const handleSummaryStyleChange = (style) => {
 		setSummaryStyle(style);
 		setIsDetailedDropdownOpen(false);
-		
+
 		// Here you would typically regenerate the summary with the new style
 		// For now, we'll just log it
 		console.log(`Summary style changed to: ${style}`);
-		
+
 		// You can add logic here to regenerate the summary with the new style
 		// For example, call a modified version of doubleCheckSummary that includes the style
 	};
@@ -47,38 +48,39 @@ const SummaryView = ({
 	const handleCustomReply = async () => {
 		try {
 			setIsSubmitting(true);
-			
+
 			// Get the currently selected email
 			const emailItem = document.querySelector('.zA.yO');
 			if (!emailItem) {
 				throw new Error('No email selected');
 			}
-			
+
 			// Get email content
 			const emailContent = getFullEmailDetails(emailItem);
-			
+
 			// Find and click Gmail's reply button
 			const replyButton = document.querySelector('[aria-label="Reply"]');
 			if (replyButton) {
 				replyButton.click();
-				
+
 				// Wait for the compose box to appear
 				await waitForElement('.Am.Al.editable');
-				
+
 				// Find the compose box and insert loading text
 				const composeBox = document.querySelector('.Am.Al.editable');
 				if (composeBox) {
 					// Show loading state
 					composeBox.innerHTML = 'Generating custom reply...<br><br>';
-					
+
 					// Prepare request body
-					const currentPrivacyMode = localStorage.getItem('privacyMode') === 'true';
+					const currentPrivacyMode =
+						localStorage.getItem('privacyMode') === 'true';
 					const requestBody = {
 						email_content: emailContent,
 						custom_instructions: customInstructions,
 						privacy_mode: currentPrivacyMode,
 					};
-					
+
 					// If privacy mode is off, get and add the API key
 					if (!requestBody.privacy_mode) {
 						const apiKey = localStorage.getItem('openai_api_key');
@@ -86,17 +88,20 @@ const SummaryView = ({
 							requestBody.openai_api_key = apiKey;
 						} else {
 							// Handle missing API key when not in privacy mode
-							console.error('OpenAI API Key is missing and Privacy Mode is OFF. Custom reply generation aborted.');
-							composeBox.innerHTML = 'Error: OpenAI API Key is missing. Please set it in the sidebar.<br><br>';
+							console.error(
+								'OpenAI API Key is missing and Privacy Mode is OFF. Custom reply generation aborted.'
+							);
+							composeBox.innerHTML =
+								'Error: OpenAI API Key is missing. Please set it in the sidebar.<br><br>';
 							setIsSubmitting(false);
 							return; // Stop execution
 						}
 					}
-					
+
 					// Get AI-generated custom reply from server
 					console.log('Sending custom reply request to server...');
 					console.log(requestBody);
-					
+
 					const response = await fetch('http://localhost:8000/custom-reply', {
 						method: 'POST',
 						headers: {
@@ -104,18 +109,18 @@ const SummaryView = ({
 						},
 						body: JSON.stringify(requestBody),
 					});
-					
+
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
-					
+
 					try {
 						const data = await response.json();
 						console.log('Parsed response data:', data);
-						
+
 						// Handle both string responses and object responses
 						let replyText = typeof data === 'string' ? data : data.reply;
-						
+
 						if (replyText) {
 							// Replace template placeholders with empty strings
 							replyText = replyText
@@ -126,7 +131,7 @@ const SummaryView = ({
 								.replace(/\n/g, '<br>')
 								// Clean up any double line breaks
 								.replace(/<br><br><br>/g, '<br><br>');
-							
+
 							composeBox.innerHTML = replyText;
 						} else {
 							throw new Error('No reply text found in response');
@@ -142,7 +147,7 @@ const SummaryView = ({
 							.replace(/\n/g, '<br>')
 							.replace(/<br><br><br>/g, '<br><br>');
 					}
-					
+
 					// Place cursor at the end
 					const selection = window.getSelection();
 					const range = document.createRange();
@@ -150,7 +155,7 @@ const SummaryView = ({
 					range.collapse(false);
 					selection.removeAllRanges();
 					selection.addRange(range);
-					
+
 					// Close the modal
 					toggleCustomReplyModal();
 				}
@@ -171,19 +176,19 @@ const SummaryView = ({
 			if (document.querySelector(selector)) {
 				return resolve();
 			}
-			
+
 			const observer = new MutationObserver(() => {
 				if (document.querySelector(selector)) {
 					observer.disconnect();
 					resolve();
 				}
 			});
-			
+
 			observer.observe(document.body, {
 				childList: true,
 				subtree: true,
 			});
-			
+
 			// Add timeout to prevent infinite waiting
 			setTimeout(() => {
 				observer.disconnect();
@@ -216,7 +221,7 @@ const SummaryView = ({
 
 	// Move the handleRefreshSummary function inside the component, before the return statement
 	// Around line 230, after handleActionItemToggle and before the return statement
-	
+
 	// Handler for checkbox change (does nothing yet)
 	const handleActionItemToggle = (itemId) => {
 		console.log('Toggled action item:', itemId);
@@ -225,7 +230,7 @@ const SummaryView = ({
 			onActionItemToggle(itemId);
 		}
 	};
-	
+
 	// Add this function to handle the refresh action
 	const handleRefreshSummary = async () => {
 		try {
@@ -281,18 +286,33 @@ const SummaryView = ({
 								className="detailed-button-mailmind"
 								onClick={toggleDetailedDropdown}
 							>
-								{summaryStyle === 'standard' ? 'Detailed' : 
-								 summaryStyle === 'detailed' ? 'Detailed' :
-								 summaryStyle === 'compact' ? 'Compact' :
-								 summaryStyle === 'tothepoint' ? 'To The Point' : 'Detailed'}
+								{summaryStyle === 'standard'
+									? 'Detailed'
+									: summaryStyle === 'detailed'
+									? 'Detailed'
+									: summaryStyle === 'compact'
+									? 'Compact'
+									: summaryStyle === 'tothepoint'
+									? 'To The Point'
+									: 'Detailed'}
 								<span className="dropdown-arrow">▼</span>
 							</button>
 							{isDetailedDropdownOpen && (
 								<div className="detailed-dropdown-menu">
-									<button onClick={() => handleSummaryStyleChange('detailed')}>Detailed</button>
-									<button onClick={() => handleSummaryStyleChange('compact')}>Compact</button>
-									<button onClick={() => handleSummaryStyleChange('tothepoint')}>To The Point</button>
-									<button onClick={() => handleSummaryStyleChange('standard')}>Standard</button>
+									<button onClick={() => handleSummaryStyleChange('detailed')}>
+										Detailed
+									</button>
+									<button onClick={() => handleSummaryStyleChange('compact')}>
+										Compact
+									</button>
+									<button
+										onClick={() => handleSummaryStyleChange('tothepoint')}
+									>
+										To The Point
+									</button>
+									<button onClick={() => handleSummaryStyleChange('standard')}>
+										Standard
+									</button>
 								</div>
 							)}
 						</div>
@@ -308,12 +328,10 @@ const SummaryView = ({
 				<div className="summary-section-mailmind">
 					<div className="summary-text-mailmind">
 						<p>
-							{isRefreshing ? (
-								'Refreshing summary and action items... Please wait.'
-							) : (
-								summary ||
-								'Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante.'
-							)}
+							{isRefreshing
+								? 'Refreshing summary Please wait...'
+								: summary ||
+								  'Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at maximus ante.'}
 						</p>
 					</div>
 				</div>
@@ -373,9 +391,14 @@ const SummaryView = ({
 				<div className="primary-actions-mailmind">
 					<button
 						className="action-button-mailmind copy-button-mailmind"
-						onClick={() => copyToClipboard(summary)}
+						onClick={() => {
+							copyToClipboard(summary);
+							setCopied(true);
+							setTimeout(() => setCopied(false), 1000); // 1 second feedback
+						}}
 					>
-						<span className="icon-mailmind">📋</span> Copy
+						<span className="icon-mailmind">📋</span>{' '}
+						{copied ? 'Copied!' : 'Copy'}
 					</button>
 				</div>
 
